@@ -9,23 +9,59 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        brand: {
-          50: "#f0fdf4",
-          100: "#dcfce7",
-          200: "#bbf7d0",
-          300: "#86efac",
-          400: "#4ade80",
-          500: "#22c55e",
-          600: "#16a34a",
-          700: "#15803d",
-          800: "#166534",
-          900: "#14532d",
-          950: "#052e16",
+        // Flat UI Classic Palette (2018 Aesthetic)
+        flat: {
+          turquoise: "#1abc9c",
+          greensea: "#16a085",
+          emerald: "#2ecc71",
+          nephritis: "#27ae60",
+          peterriver: "#3498db",
+          belizehole: "#2980b9",
+          amethyst: "#9b59b6",
+          wisteria: "#8e44ad",
+          wetasphalt: "#34495e",
+          midnightblue: "#2c3e50",
+          sunflower: "#f1c40f",
+          orange: "#f39c12",
+          carrot: "#e67e22",
+          pumpkin: "#d35400",
+          alizarin: "#e74c3c",
+          pomegranate: "#c0392b",
+          clouds: "#ecf0f1",
+          silver: "#bdc3c7",
+          concrete: "#95a5a6",
+          asbestos: "#7f8c8d",
         },
-        navy: {
-          800: "#0f172a",
-          900: "#090d16",
-        }
+        brand: {
+          50: "#e8f8f5",
+          100: "#d1f2eb",
+          200: "#a3e4d7",
+          300: "#76d7c4",
+          400: "#48c9b0",
+          500: "#1abc9c", // Flat Turquoise
+          600: "#16a085", // Flat Green Sea
+          700: "#117a65",
+          800: "#0e6252",
+          900: "#0b4d40",
+        },
+      },
+      borderRadius: {
+        // Flat UI 2018 preferred neat, modest corner radiuses (4px to 8px)
+        none: "0",
+        sm: "3px",
+        DEFAULT: "4px",
+        md: "6px",
+        lg: "8px",
+        xl: "10px",
+        "2xl": "12px",
+        full: "9999px",
+      },
+      boxShadow: {
+        // Flat 2.0: Subtle, crisp elevations without heavy blurs
+        flat: "0 2px 0 rgba(0, 0, 0, 0.05)",
+        "flat-md": "0 3px 0 rgba(0, 0, 0, 0.08)",
+        "flat-btn": "0 3px 0 rgba(0, 0, 0, 0.15)",
+        "flat-card": "0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)",
       },
     },
   },

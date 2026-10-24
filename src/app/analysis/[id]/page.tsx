@@ -17,14 +17,10 @@ import {
   MessageSquare,
   DollarSign,
   BarChart3,
-  Layers,
   Send,
   Sliders,
-  Calendar,
-  Building,
   Target,
   Sparkles,
-  Download,
 } from "lucide-react";
 import {
   BarChart,
@@ -79,8 +75,8 @@ export default function AnalysisDetailPage() {
   if (loading) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-20 text-center">
-        <div className="w-8 h-8 border-3 border-brand-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-        <p className="text-slate-600 text-sm">Memuat laporan analisis bisnis...</p>
+        <div className="w-8 h-8 border-3 border-[#1abc9c] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+        <p className="text-xs text-[#7f8c8d] font-bold uppercase tracking-wider">Memuat laporan analisis bisnis...</p>
       </div>
     );
   }
@@ -88,13 +84,13 @@ export default function AnalysisDetailPage() {
   if (!record) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-16 text-center">
-        <h2 className="text-xl font-bold text-slate-800">Laporan Tidak Ditemukan</h2>
-        <p className="text-slate-500 text-sm mt-2">
+        <h2 className="text-base font-bold text-[#2c3e50] uppercase tracking-wide">Laporan Tidak Ditemukan</h2>
+        <p className="text-[#7f8c8d] text-xs mt-1">
           Arsip analisis dengan ID ini tidak tersedia di penyimpanan lokal.
         </p>
         <Link
           href="/dashboard"
-          className="mt-6 inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-brand-600 text-white text-sm font-medium"
+          className="mt-4 inline-flex items-center gap-1.5 px-4 py-2 rounded bg-[#1abc9c] text-white text-xs font-bold uppercase tracking-wider"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Kembali ke Dashboard</span>
@@ -182,56 +178,54 @@ export default function AnalysisDetailPage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-5">
       {/* Top Header & Actions */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 no-print border-b border-slate-200 pb-5">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 no-print border-b-2 border-slate-200 pb-4">
         <div className="flex items-center gap-3">
           <Link
             href="/dashboard"
-            className="p-2 rounded-xl border border-slate-200 hover:bg-slate-100 text-slate-600 transition-colors"
+            className="p-2 rounded bg-white border border-slate-300 hover:bg-slate-100 text-[#2c3e50] shadow-flat transition-colors"
             title="Kembali ke Dashboard"
           >
-            <ArrowLeft className="w-5 h-5" />
+            <ArrowLeft className="w-4 h-4" />
           </Link>
           <div>
             <div className="flex items-center gap-2">
               <span
-                className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${
-                  isGrowth
-                    ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
-                    : "bg-blue-50 text-blue-800 border border-blue-200"
+                className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded text-white ${
+                  isGrowth ? "bg-[#3498db]" : "bg-[#1abc9c]"
                 }`}
               >
                 {isGrowth ? "Evaluasi Usaha Berjalan" : "Rencana Bisnis Baru"}
               </span>
-              <span className="text-xs text-slate-500">
+              <span className="text-[11px] text-[#7f8c8d]">
                 Dibuat: {new Date(record.createdAt).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" })}
               </span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">
+            <h1 className="text-xl sm:text-2xl font-black text-[#2c3e50] uppercase tracking-wide mt-1">
               {record.businessName}
             </h1>
-            <p className="text-xs text-slate-500 mt-0.5">
+            <p className="text-xs text-[#7f8c8d]">
               {record.category} • {record.location}
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2">
           <button
             onClick={handlePrint}
-            className="px-4 py-2 rounded-xl bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-semibold text-xs flex items-center gap-2 shadow-sm transition-colors"
+            className="px-4 py-2 rounded bg-white border border-slate-300 hover:bg-slate-100 text-[#2c3e50] font-bold text-xs uppercase tracking-wider flex items-center gap-1.5 shadow-flat transition-colors"
           >
-            <Printer className="w-4 h-4 text-slate-500" />
+            <Printer className="w-4 h-4 text-[#7f8c8d]" />
             <span>Cetak / Simpan PDF</span>
           </button>
         </div>
       </div>
 
-      {/* Tabs Navigation */}
-      <div className="no-print border-b border-slate-200 flex gap-2 sm:gap-6 overflow-x-auto text-sm font-semibold">
+      {/* 2018 Flat Tabs Bar */}
+      <div className="no-print bg-white rounded border border-slate-200 shadow-flat flex gap-1 p-1 overflow-x-auto text-xs font-bold uppercase tracking-wider">
         {[
-          { key: "ringkasan", label: "Ringkasan & Validasi", icon: Sparkles },
+          { key: "ringkasan", label: "Ringkasan", icon: Sparkles },
           { key: "finansial", label: "Kalkulator & BEP", icon: DollarSign },
           { key: "skenario", label: "Simulasi Skenario", icon: BarChart3 },
           { key: "risiko", label: `Mitigasi Risiko (${record.risks.length})`, icon: AlertTriangle },
@@ -243,13 +237,13 @@ export default function AnalysisDetailPage() {
             <button
               key={t.key}
               onClick={() => setActiveTab(t.key as any)}
-              className={`pb-3 px-1 border-b-2 flex items-center gap-2 whitespace-nowrap transition-colors ${
+              className={`py-2 px-3 rounded flex items-center gap-1.5 whitespace-nowrap transition-colors ${
                 isActive
-                  ? "border-brand-600 text-brand-700 font-bold"
-                  : "border-transparent text-slate-500 hover:text-slate-800"
+                  ? "bg-[#2c3e50] text-white border-b-2 border-[#1abc9c]"
+                  : "text-[#7f8c8d] hover:bg-slate-100 hover:text-[#2c3e50]"
               }`}
             >
-              <Icon className="w-4 h-4" />
+              <Icon className="w-3.5 h-3.5" />
               <span>{t.label}</span>
             </button>
           );
@@ -257,36 +251,36 @@ export default function AnalysisDetailPage() {
       </div>
 
       {/* PRINT-ONLY HEADER */}
-      <div className="hidden print:block mb-6">
-        <h1 className="text-2xl font-bold text-slate-900">Laporan Analisis Keputusan Bisnis</h1>
-        <p className="text-sm text-slate-600">Usaha: {record.businessName} ({record.category})</p>
-        <p className="text-xs text-slate-400">Tanggal: {new Date(record.createdAt).toLocaleDateString("id-ID")}</p>
+      <div className="hidden print:block mb-4">
+        <h1 className="text-xl font-black text-[#2c3e50] uppercase">Laporan Analisis Keputusan Bisnis</h1>
+        <p className="text-xs text-[#576574]">Usaha: {record.businessName} ({record.category})</p>
+        <p className="text-[11px] text-[#7f8c8d]">Tanggal: {new Date(record.createdAt).toLocaleDateString("id-ID")}</p>
       </div>
 
       {/* TAB 1: RINGKASAN & VALIDASI */}
       {(activeTab === "ringkasan" || typeof window === "undefined") && (
-        <div className="space-y-6">
+        <div className="space-y-4">
           {/* Executive Summary Card */}
-          <div className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-sm">
-            <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2 mb-3">
-              <Sparkles className="w-5 h-5 text-brand-600" />
+          <div className="bg-white rounded border border-slate-200 p-6 shadow-flat border-t-4 border-[#1abc9c]">
+            <h2 className="text-sm font-bold text-[#2c3e50] uppercase tracking-wide flex items-center gap-1.5 mb-3">
+              <Sparkles className="w-4 h-4 text-[#1abc9c]" />
               <span>Ringkasan Eksekutif & Opini Analis</span>
             </h2>
-            <p className="text-slate-700 text-sm leading-relaxed whitespace-pre-line bg-slate-50/80 p-4 rounded-xl border border-slate-100">
+            <p className="text-xs sm:text-sm text-[#2c3e50] leading-relaxed whitespace-pre-line bg-[#f4f6f9] p-3.5 rounded border border-slate-200">
               {record.aiReport.executiveSummary}
             </p>
 
-            <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Strengths */}
-              <div className="p-4 rounded-xl bg-emerald-50/50 border border-emerald-200/70">
-                <h3 className="font-bold text-sm text-emerald-900 flex items-center gap-2 mb-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+              <div className="p-3.5 rounded bg-white border-l-4 border-[#2ecc71] border-t border-r border-b border-slate-200">
+                <h3 className="font-bold text-xs text-[#27ae60] uppercase tracking-wide flex items-center gap-1.5 mb-2">
+                  <CheckCircle2 className="w-4 h-4" />
                   <span>Kekuatan & Potensi Utama</span>
                 </h3>
-                <ul className="space-y-2 text-xs text-emerald-950">
+                <ul className="space-y-1.5 text-xs text-[#2c3e50]">
                   {record.aiReport.businessStrengths.map((str, idx) => (
-                    <li key={idx} className="flex items-start gap-2">
-                      <span className="font-bold">•</span>
+                    <li key={idx} className="flex items-start gap-1.5">
+                      <span className="text-[#27ae60] font-black">✓</span>
                       <span>{str}</span>
                     </li>
                   ))}
@@ -294,15 +288,15 @@ export default function AnalysisDetailPage() {
               </div>
 
               {/* Weaknesses */}
-              <div className="p-4 rounded-xl bg-amber-50/50 border border-amber-200/70">
-                <h3 className="font-bold text-sm text-amber-900 flex items-center gap-2 mb-2">
-                  <AlertTriangle className="w-4 h-4 text-amber-600" />
+              <div className="p-3.5 rounded bg-white border-l-4 border-[#e67e22] border-t border-r border-b border-slate-200">
+                <h3 className="font-bold text-xs text-[#d35400] uppercase tracking-wide flex items-center gap-1.5 mb-2">
+                  <AlertTriangle className="w-4 h-4" />
                   <span>Kelemahan & Titik Kritis</span>
                 </h3>
-                <ul className="space-y-2 text-xs text-amber-950">
+                <ul className="space-y-1.5 text-xs text-[#2c3e50]">
                   {record.aiReport.businessWeaknesses.map((w, idx) => (
-                    <li key={idx} className="flex items-start gap-2">
-                      <span className="font-bold">•</span>
+                    <li key={idx} className="flex items-start gap-1.5">
+                      <span className="text-[#e67e22] font-black">!</span>
                       <span>{w}</span>
                     </li>
                   ))}
@@ -311,31 +305,31 @@ export default function AnalysisDetailPage() {
             </div>
           </div>
 
-          {/* Data Confidence Score (Transparansi Objektif) */}
-          <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4 mb-4">
+          {/* Data Confidence Score */}
+          <div className="bg-white rounded border border-slate-200 p-5 shadow-flat border-t-4 border-[#34495e]">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3 mb-3">
               <div>
-                <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
-                  <ShieldAlert className="w-5 h-5 text-indigo-600" />
+                <h3 className="text-xs sm:text-sm font-bold text-[#2c3e50] uppercase tracking-wide flex items-center gap-1.5">
+                  <ShieldAlert className="w-4 h-4 text-[#34495e]" />
                   <span>Tingkat Keyakinan Analisis (Data Confidence Score)</span>
                 </h3>
-                <p className="text-xs text-slate-500 mt-0.5">
-                  Bukan angka akurasi buatan, melainkan rasio kelengkapan dan verifikasi parameter input.
+                <p className="text-[11px] text-[#7f8c8d]">
+                  Bukan skor kepastian buatan, melainkan rasio kelengkapan parameter data input.
                 </p>
               </div>
 
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
                 <div className="text-right">
-                  <span className="text-2xl font-extrabold text-slate-900">
+                  <span className="text-2xl font-black text-[#2c3e50]">
                     {record.aiReport.dataConfidenceScore.scorePercent}%
                   </span>
                   <span
-                    className={`block text-[11px] font-bold ${
+                    className={`block text-[10px] font-bold uppercase tracking-wider ${
                       record.aiReport.dataConfidenceScore.level === "Tinggi"
-                        ? "text-emerald-700"
+                        ? "text-[#27ae60]"
                         : record.aiReport.dataConfidenceScore.level === "Sedang"
-                        ? "text-amber-700"
-                        : "text-rose-700"
+                        ? "text-[#d35400]"
+                        : "text-[#c0392b]"
                     }`}
                   >
                     Kategori {record.aiReport.dataConfidenceScore.level}
@@ -344,19 +338,19 @@ export default function AnalysisDetailPage() {
               </div>
             </div>
 
-            <p className="text-xs text-slate-600 leading-relaxed">
+            <p className="text-xs text-[#576574] leading-relaxed">
               {record.aiReport.dataConfidenceScore.explanation}
             </p>
 
             {record.aiReport.dataConfidenceScore.missingCriticalData.length > 0 && (
-              <div className="mt-4 p-3.5 rounded-xl bg-slate-50 border border-slate-200">
-                <span className="text-xs font-semibold text-slate-700 block mb-2">
-                  Data yang Masih Perlu Diverifikasi di Lapangan:
+              <div className="mt-3 p-3 rounded bg-[#f4f6f9] border border-slate-200">
+                <span className="text-[11px] font-bold text-[#2c3e50] uppercase block mb-1.5">
+                  Data yang Perlu Diverifikasi Lebih Lanjut:
                 </span>
-                <ul className="space-y-1 text-xs text-slate-600">
+                <ul className="space-y-1 text-xs text-[#576574]">
                   {record.aiReport.dataConfidenceScore.missingCriticalData.map((miss, idx) => (
                     <li key={idx} className="flex items-center gap-1.5">
-                      <HelpCircle className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                      <HelpCircle className="w-3.5 h-3.5 text-[#e67e22] shrink-0" />
                       <span>{miss}</span>
                     </li>
                   ))}
@@ -366,18 +360,18 @@ export default function AnalysisDetailPage() {
           </div>
 
           {/* Action Plan Before Investment */}
-          <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-            <h3 className="text-base font-bold text-slate-900 flex items-center gap-2 mb-3">
-              <Target className="w-5 h-5 text-brand-600" />
-              <span>Rekomendasi Tindakan Sebelum Berinvestasi Modal</span>
+          <div className="bg-white rounded border border-slate-200 p-5 shadow-flat border-t-4 border-[#2c3e50]">
+            <h3 className="text-xs sm:text-sm font-bold text-[#2c3e50] uppercase tracking-wide flex items-center gap-1.5 mb-3">
+              <Target className="w-4 h-4 text-[#2c3e50]" />
+              <span>Rekomendasi Tindakan Sebelum Komitmen Modal</span>
             </h3>
-            <div className="space-y-2.5">
+            <div className="space-y-2">
               {record.aiReport.actionPlanBeforeInvestment.map((act, idx) => (
                 <div
                   key={idx}
-                  className="p-3 rounded-xl bg-slate-50 border border-slate-100 flex items-start gap-3 text-xs sm:text-sm text-slate-800"
+                  className="p-2.5 rounded bg-[#f4f6f9] border border-slate-200 flex items-start gap-2.5 text-xs text-[#2c3e50]"
                 >
-                  <span className="w-5 h-5 rounded-full bg-brand-100 text-brand-700 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
+                  <span className="w-4 h-4 rounded-none bg-[#2c3e50] text-white font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">
                     {idx + 1}
                   </span>
                   <span>{act}</span>
@@ -390,17 +384,16 @@ export default function AnalysisDetailPage() {
 
       {/* TAB 2: KALKULATOR FINANSIAL & BEP */}
       {activeTab === "finansial" && (
-        <div className="space-y-6">
-          {/* Key Metric Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-              <span className="text-xs font-semibold text-slate-500 uppercase">
-                Estimasi Omset Bulanan
+        <div className="space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            <div className="bg-white p-4 rounded border border-slate-200 shadow-flat border-t-4 border-[#3498db]">
+              <span className="text-[10px] font-bold text-[#7f8c8d] uppercase tracking-wider">
+                Omset Bulanan
               </span>
-              <div className="text-xl sm:text-2xl font-bold text-slate-900 mt-1">
+              <div className="text-lg sm:text-xl font-black text-[#2c3e50] mt-1">
                 Rp {fin.totalMonthlyRevenue.toLocaleString("id-ID")}
               </div>
-              <span className="text-[11px] text-slate-500 mt-1 block">
+              <span className="text-[11px] text-[#7f8c8d] mt-0.5 block">
                 {("expectedMonthlySalesVolume" in record.inputSnapshot
                   ? record.inputSnapshot.expectedMonthlySalesVolume
                   : (record.inputSnapshot as any).monthlyUnitsSold)}{" "}
@@ -411,113 +404,112 @@ export default function AnalysisDetailPage() {
               </span>
             </div>
 
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-              <span className="text-xs font-semibold text-slate-500 uppercase">
-                Total Beban Operasional
+            <div className="bg-white p-4 rounded border border-slate-200 shadow-flat border-t-4 border-[#95a5a6]">
+              <span className="text-[10px] font-bold text-[#7f8c8d] uppercase tracking-wider">
+                Total Biaya Operasional
               </span>
-              <div className="text-xl sm:text-2xl font-bold text-slate-900 mt-1">
+              <div className="text-lg sm:text-xl font-black text-[#2c3e50] mt-1">
                 Rp {fin.totalMonthlyCost.toLocaleString("id-ID")}
               </div>
-              <span className="text-[11px] text-slate-500 mt-1 block">
-                Tetap: Rp {fin.totalMonthlyFixedCost.toLocaleString("id-ID")} + Variabel: Rp{" "}
-                {fin.totalMonthlyVariableCost.toLocaleString("id-ID")}
+              <span className="text-[11px] text-[#7f8c8d] mt-0.5 block">
+                Tetap: Rp {fin.totalMonthlyFixedCost.toLocaleString("id-ID")} + Var: Rp {fin.totalMonthlyVariableCost.toLocaleString("id-ID")}
               </span>
             </div>
 
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-              <span className="text-xs font-semibold text-slate-500 uppercase">
-                Laba Operasional Bulanan
+            <div className="bg-white p-4 rounded border border-slate-200 shadow-flat border-t-4 border-[#2ecc71]">
+              <span className="text-[10px] font-bold text-[#7f8c8d] uppercase tracking-wider">
+                Laba Operasional
               </span>
               <div
-                className={`text-xl sm:text-2xl font-bold mt-1 ${
-                  fin.monthlyOperatingProfit >= 0 ? "text-emerald-700" : "text-rose-700"
+                className={`text-lg sm:text-xl font-black mt-1 ${
+                  fin.monthlyOperatingProfit >= 0 ? "text-[#27ae60]" : "text-[#c0392b]"
                 }`}
               >
                 Rp {fin.monthlyOperatingProfit.toLocaleString("id-ID")}
               </div>
-              <span className="text-[11px] text-slate-500 mt-1 block">
+              <span className="text-[11px] text-[#7f8c8d] mt-0.5 block">
                 Margin Laba: {fin.profitMarginPercent}%
               </span>
             </div>
 
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-              <span className="text-xs font-semibold text-slate-500 uppercase">
+            <div className="bg-white p-4 rounded border border-slate-200 shadow-flat border-t-4 border-[#1abc9c]">
+              <span className="text-[10px] font-bold text-[#7f8c8d] uppercase tracking-wider">
                 Break-Even Point (BEP)
               </span>
-              <div className="text-xl sm:text-2xl font-bold text-slate-900 mt-1">
+              <div className="text-lg sm:text-xl font-black text-[#2c3e50] mt-1">
                 {fin.bepUnits ? `${fin.bepUnits} Unit` : "Defisit Unit"}
               </div>
-              <span className="text-[11px] text-slate-500 mt-1 block">
-                {fin.bepRevenue ? `Omset Impas: Rp ${fin.bepRevenue.toLocaleString("id-ID")}` : "Kontribusi negatif"}
+              <span className="text-[11px] text-[#7f8c8d] mt-0.5 block">
+                {fin.bepRevenue ? `Omset Impas: Rp ${fin.bepRevenue.toLocaleString("id-ID")}` : "Margin negatif"}
               </span>
             </div>
           </div>
 
           {/* Unit Economics Breakdown Card */}
-          <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-            <h3 className="text-base font-bold text-slate-900 mb-4">
+          <div className="bg-white rounded border border-slate-200 p-5 shadow-flat">
+            <h3 className="text-xs sm:text-sm font-bold text-[#2c3e50] uppercase tracking-wide mb-3">
               Bedah Ekonomi Unit (Unit Economics) & Margin Kontribusi
             </h3>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs sm:text-sm">
-              <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
-                <span className="text-slate-500 block mb-1">Margin Kontribusi per Unit</span>
-                <span className="text-lg font-bold text-slate-900 block">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+              <div className="p-3 rounded bg-[#f4f6f9] border border-slate-200">
+                <span className="text-[#7f8c8d] block text-[11px]">Margin Kontribusi per Unit</span>
+                <span className="text-base font-black text-[#2c3e50] block mt-0.5">
                   Rp {fin.unitContributionMargin.toLocaleString("id-ID")}
                 </span>
-                <span className="text-[11px] text-slate-500 mt-1 block">
+                <span className="text-[10px] text-[#95a5a6] mt-0.5 block">
                   Harga Jual − Biaya Variabel Langsung
                 </span>
               </div>
 
-              <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
-                <span className="text-slate-500 block mb-1">Rasio Margin Kontribusi</span>
-                <span className="text-lg font-bold text-slate-900 block">
+              <div className="p-3 rounded bg-[#f4f6f9] border border-slate-200">
+                <span className="text-[#7f8c8d] block text-[11px]">Rasio Margin Kontribusi</span>
+                <span className="text-base font-black text-[#2c3e50] block mt-0.5">
                   {fin.contributionMarginRatio}%
                 </span>
-                <span className="text-[11px] text-slate-500 mt-1 block">
+                <span className="text-[10px] text-[#95a5a6] mt-0.5 block">
                   Persentase setiap rupiah omset penutup biaya tetap
                 </span>
               </div>
 
-              <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
-                <span className="text-slate-500 block mb-1">Status Kecukupan Modal / Runway</span>
+              <div className="p-3 rounded bg-[#f4f6f9] border border-slate-200">
+                <span className="text-[#7f8c8d] block text-[11px]">Ketahanan Modal / Runway</span>
                 <span
-                  className={`text-lg font-bold block ${
+                  className={`text-base font-black block mt-0.5 ${
                     fin.capitalAdequacyStatus === "Mencukupi"
-                      ? "text-emerald-700"
-                      : "text-amber-700"
+                      ? "text-[#27ae60]"
+                      : "text-[#d35400]"
                   }`}
                 >
                   {fin.capitalAdequacyStatus}
                 </span>
-                <span className="text-[11px] text-slate-500 mt-1 block">
-                  {fin.capitalRunwayMonths !== null ? `Runway kas: ~${fin.capitalRunwayMonths} bulan` : "Arus operasional surplus"}
+                <span className="text-[10px] text-[#95a5a6] mt-0.5 block">
+                  {fin.capitalRunwayMonths !== null ? `Runway: ~${fin.capitalRunwayMonths} bulan` : "Arus kas surplus"}
                 </span>
               </div>
             </div>
 
             {/* Explanation & Limitations */}
-            <div className="mt-6 pt-6 border-t border-slate-100 space-y-3">
-              <h4 className="font-semibold text-xs text-slate-700 uppercase tracking-wide">
+            <div className="mt-4 pt-4 border-t border-slate-200 space-y-2">
+              <h4 className="font-bold text-[11px] text-[#2c3e50] uppercase tracking-wide">
                 Penjelasan Logika Perhitungan:
               </h4>
-              <ul className="space-y-1.5 text-xs text-slate-600">
+              <ul className="space-y-1 text-xs text-[#576574]">
                 {fin.explanation.map((exp, idx) => (
-                  <li key={idx} className="flex items-start gap-2">
-                    <span className="text-brand-600 font-bold">•</span>
+                  <li key={idx} className="flex items-start gap-1.5">
+                    <span className="text-[#1abc9c] font-black">•</span>
                     <span>{exp}</span>
                   </li>
                 ))}
               </ul>
 
-              <h4 className="font-semibold text-xs text-slate-700 uppercase tracking-wide pt-2">
+              <h4 className="font-bold text-[11px] text-[#2c3e50] uppercase tracking-wide pt-2">
                 Batasan Model Finansial Ini:
               </h4>
-              <ul className="space-y-1.5 text-xs text-slate-500">
+              <ul className="space-y-1 text-xs text-[#7f8c8d]">
                 {fin.limitations.map((lim, idx) => (
-                  <li key={idx} className="flex items-start gap-2">
-                    <span className="text-amber-500 font-bold">•</span>
+                  <li key={idx} className="flex items-start gap-1.5">
+                    <span className="text-[#e67e22] font-black">•</span>
                     <span>{lim}</span>
                   </li>
                 ))}
@@ -529,68 +521,66 @@ export default function AnalysisDetailPage() {
 
       {/* TAB 3: SIMULASI SKENARIO & STRES-TES */}
       {activeTab === "skenario" && (
-        <div className="space-y-6">
-          {/* Header Card */}
-          <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-            <h3 className="text-base font-bold text-slate-900 mb-1">
+        <div className="space-y-4">
+          <div className="bg-white rounded border border-slate-200 p-5 shadow-flat border-t-4 border-[#3498db]">
+            <h3 className="text-xs sm:text-sm font-bold text-[#2c3e50] uppercase tracking-wide mb-1">
               Perbandingan 3 Skenario Pasar: Konservatif, Moderat, dan Optimistis
             </h3>
-            <p className="text-xs text-slate-500 mb-6">
-              Uji ketahanan model bisnis Anda jika penjualan di bawah target atau biaya bahan baku meningkat.
+            <p className="text-xs text-[#7f8c8d] mb-4">
+              Uji ketahanan bisnis jika penjualan di bawah target atau biaya bahan baku meningkat.
             </p>
 
-            {/* Recharts Bar Chart */}
-            <div className="h-72 w-full">
+            <div className="h-64 w-full">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={scenarioChartData} margin={{ top: 10, right: 20, left: 20, bottom: 5 }}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
-                  <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+                <BarChart data={scenarioChartData} margin={{ top: 10, right: 10, left: 10, bottom: 5 }}>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#ecf0f1" />
+                  <XAxis dataKey="name" tick={{ fontSize: 11, fill: "#2c3e50" }} />
                   <YAxis
-                    tick={{ fontSize: 11 }}
+                    tick={{ fontSize: 10, fill: "#7f8c8d" }}
                     tickFormatter={(val) => `Rp ${(val / 1000000).toFixed(0)}jt`}
                   />
                   <Tooltip
                     formatter={(val: any) => [`Rp ${Number(val).toLocaleString("id-ID")}`, ""]}
-                    contentStyle={{ borderRadius: "12px", border: "1px solid #cbd5e1" }}
+                    contentStyle={{ borderRadius: "4px", border: "1px solid #bdc3c7", fontSize: "11px" }}
                   />
-                  <Legend />
-                  <Bar dataKey="Pendapatan" fill="#3b82f6" radius={[4, 4, 0, 0]} />
-                  <Bar dataKey="Total Biaya" fill="#94a3b8" radius={[4, 4, 0, 0]} />
-                  <Bar dataKey="Laba Operasional" fill="#16a34a" radius={[4, 4, 0, 0]} />
+                  <Legend wrapperStyle={{ fontSize: "11px" }} />
+                  <Bar dataKey="Pendapatan" fill="#3498db" radius={[0, 0, 0, 0]} />
+                  <Bar dataKey="Total Biaya" fill="#95a5a6" radius={[0, 0, 0, 0]} />
+                  <Bar dataKey="Laba Operasional" fill="#2ecc71" radius={[0, 0, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
 
-            {/* Comparison Table */}
-            <div className="mt-8 overflow-x-auto">
-              <table className="w-full text-xs text-left text-slate-600">
-                <thead className="bg-slate-50 text-slate-800 uppercase font-semibold">
+            {/* Flat Comparison Table */}
+            <div className="mt-6 overflow-x-auto">
+              <table className="w-full text-xs text-left border border-slate-200">
+                <thead className="bg-[#2c3e50] text-white uppercase text-[10px] font-bold tracking-wider">
                   <tr>
-                    <th className="px-4 py-3 rounded-l-lg">Skenario</th>
-                    <th className="px-4 py-3">Volume Unit</th>
-                    <th className="px-4 py-3">Harga Jual</th>
-                    <th className="px-4 py-3">Omset Bulanan</th>
-                    <th className="px-4 py-3">Total Beban</th>
-                    <th className="px-4 py-3">Laba Bersih</th>
-                    <th className="px-4 py-3 rounded-r-lg">BEP Unit</th>
+                    <th className="px-3 py-2">Skenario</th>
+                    <th className="px-3 py-2">Volume</th>
+                    <th className="px-3 py-2">Harga</th>
+                    <th className="px-3 py-2">Omset</th>
+                    <th className="px-3 py-2">Total Beban</th>
+                    <th className="px-3 py-2">Laba Bersih</th>
+                    <th className="px-3 py-2">BEP Unit</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100 font-medium">
+                <tbody className="divide-y divide-slate-200 font-medium">
                   {record.scenarios.map((sc, idx) => (
-                    <tr key={idx} className="hover:bg-slate-50/50">
-                      <td className="px-4 py-3 font-bold text-slate-900">{sc.scenarioName}</td>
-                      <td className="px-4 py-3">{sc.salesVolume} unit</td>
-                      <td className="px-4 py-3">Rp {sc.sellingPrice.toLocaleString("id-ID")}</td>
-                      <td className="px-4 py-3">Rp {sc.revenue.toLocaleString("id-ID")}</td>
-                      <td className="px-4 py-3">Rp {sc.totalCost.toLocaleString("id-ID")}</td>
+                    <tr key={idx} className="hover:bg-[#f4f6f9]">
+                      <td className="px-3 py-2 font-bold text-[#2c3e50]">{sc.scenarioName}</td>
+                      <td className="px-3 py-2">{sc.salesVolume} unit</td>
+                      <td className="px-3 py-2">Rp {sc.sellingPrice.toLocaleString("id-ID")}</td>
+                      <td className="px-3 py-2">Rp {sc.revenue.toLocaleString("id-ID")}</td>
+                      <td className="px-3 py-2">Rp {sc.totalCost.toLocaleString("id-ID")}</td>
                       <td
-                        className={`px-4 py-3 font-bold ${
-                          sc.operatingProfit >= 0 ? "text-emerald-700" : "text-rose-700"
+                        className={`px-3 py-2 font-bold ${
+                          sc.operatingProfit >= 0 ? "text-[#27ae60]" : "text-[#c0392b]"
                         }`}
                       >
                         Rp {sc.operatingProfit.toLocaleString("id-ID")}
                       </td>
-                      <td className="px-4 py-3">{sc.bepUnits ? `${sc.bepUnits} unit` : "Defisit"}</td>
+                      <td className="px-3 py-2">{sc.bepUnits ? `${sc.bepUnits} unit` : "Defisit"}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -599,22 +589,22 @@ export default function AnalysisDetailPage() {
           </div>
 
           {/* Interactive Sensitivity Playground */}
-          <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-            <div className="flex items-center gap-2 mb-4">
-              <Sliders className="w-5 h-5 text-brand-600" />
-              <h3 className="text-base font-bold text-slate-900">
+          <div className="bg-white rounded border border-slate-200 p-5 shadow-flat border-t-4 border-[#1abc9c]">
+            <div className="flex items-center gap-1.5 mb-2">
+              <Sliders className="w-4 h-4 text-[#1abc9c]" />
+              <h3 className="text-xs sm:text-sm font-bold text-[#2c3e50] uppercase tracking-wide">
                 Playground Sensitivitas Interaktif (Uji Perubahan Mandiri)
               </h3>
             </div>
-            <p className="text-xs text-slate-500 mb-6">
-              Geser tuas di bawah ini untuk melihat dampak langsung terhadap laba dan titik impas secara real-time.
+            <p className="text-xs text-[#7f8c8d] mb-4">
+              Geser tuas di bawah untuk melihat dampak langsung terhadap laba dan titik impas secara real-time.
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <div className="flex justify-between text-xs font-semibold text-slate-800">
-                  <span>Perubahan Volume Penjualan:</span>
-                  <span className={volumeDelta >= 0 ? "text-emerald-600" : "text-rose-600"}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-1">
+                <div className="flex justify-between text-xs font-bold text-[#2c3e50] uppercase">
+                  <span>Perubahan Volume:</span>
+                  <span className={volumeDelta >= 0 ? "text-[#27ae60]" : "text-[#c0392b]"}>
                     {volumeDelta > 0 ? `+${volumeDelta}%` : `${volumeDelta}%`}
                   </span>
                 </div>
@@ -625,14 +615,14 @@ export default function AnalysisDetailPage() {
                   step="5"
                   value={volumeDelta}
                   onChange={(e) => setVolumeDelta(Number(e.target.value))}
-                  className="w-full accent-brand-600"
+                  className="w-full accent-[#1abc9c]"
                 />
               </div>
 
-              <div className="space-y-2">
-                <div className="flex justify-between text-xs font-semibold text-slate-800">
-                  <span>Perubahan Harga Jual:</span>
-                  <span className={priceDelta >= 0 ? "text-emerald-600" : "text-rose-600"}>
+              <div className="space-y-1">
+                <div className="flex justify-between text-xs font-bold text-[#2c3e50] uppercase">
+                  <span>Perubahan Harga:</span>
+                  <span className={priceDelta >= 0 ? "text-[#27ae60]" : "text-[#c0392b]"}>
                     {priceDelta > 0 ? `+${priceDelta}%` : `${priceDelta}%`}
                   </span>
                 </div>
@@ -643,40 +633,40 @@ export default function AnalysisDetailPage() {
                   step="5"
                   value={priceDelta}
                   onChange={(e) => setPriceDelta(Number(e.target.value))}
-                  className="w-full accent-brand-600"
+                  className="w-full accent-[#1abc9c]"
                 />
               </div>
             </div>
 
             {/* Dynamic Results Card */}
-            <div className="mt-6 p-4 rounded-xl bg-slate-50 border border-slate-200 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
+            <div className="mt-4 p-3 rounded bg-[#f4f6f9] border border-slate-200 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
               <div>
-                <span className="text-slate-500 block">Omset Simulasi:</span>
-                <span className="text-sm font-bold text-slate-900">
+                <span className="text-[#7f8c8d] block text-[11px]">Omset Simulasi:</span>
+                <span className="text-xs font-bold text-[#2c3e50]">
                   Rp {dynamicSimulated.totalMonthlyRevenue.toLocaleString("id-ID")}
                 </span>
               </div>
               <div>
-                <span className="text-slate-500 block">Beban Total:</span>
-                <span className="text-sm font-bold text-slate-900">
+                <span className="text-[#7f8c8d] block text-[11px]">Beban Total:</span>
+                <span className="text-xs font-bold text-[#2c3e50]">
                   Rp {dynamicSimulated.totalMonthlyCost.toLocaleString("id-ID")}
                 </span>
               </div>
               <div>
-                <span className="text-slate-500 block">Laba Operasional:</span>
+                <span className="text-[#7f8c8d] block text-[11px]">Laba Operasional:</span>
                 <span
-                  className={`text-sm font-bold ${
+                  className={`text-xs font-bold ${
                     dynamicSimulated.monthlyOperatingProfit >= 0
-                      ? "text-emerald-700"
-                      : "text-rose-700"
+                      ? "text-[#27ae60]"
+                      : "text-[#c0392b]"
                   }`}
                 >
                   Rp {dynamicSimulated.monthlyOperatingProfit.toLocaleString("id-ID")}
                 </span>
               </div>
               <div>
-                <span className="text-slate-500 block">BEP Unit Baru:</span>
-                <span className="text-sm font-bold text-slate-900">
+                <span className="text-[#7f8c8d] block text-[11px]">BEP Unit Baru:</span>
+                <span className="text-xs font-bold text-[#2c3e50]">
                   {dynamicSimulated.bepUnits ? `${dynamicSimulated.bepUnits} unit` : "Defisit"}
                 </span>
               </div>
@@ -687,48 +677,53 @@ export default function AnalysisDetailPage() {
 
       {/* TAB 4: EVALUASI RISIKO & MITIGASI */}
       {activeTab === "risiko" && (
-        <div className="space-y-6">
-          <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-            <h3 className="text-base font-bold text-slate-900 mb-1">
+        <div className="space-y-4">
+          <div className="bg-white rounded border border-slate-200 p-5 shadow-flat">
+            <h3 className="text-xs sm:text-sm font-bold text-[#2c3e50] uppercase tracking-wide mb-1">
               Matriks Identifikasi Risiko & Langkah Mitigasi
             </h3>
-            <p className="text-xs text-slate-500 mb-6">
+            <p className="text-xs text-[#7f8c8d] mb-4">
               Setiap risiko dinilai berdasarkan heuristik deterministik atas struktur biaya dan kelengkapan data Anda.
             </p>
 
-            <div className="space-y-4">
+            <div className="space-y-3">
               {record.risks.map((risk) => {
                 const badgeColor =
                   risk.severity === "Kritis"
-                    ? "bg-rose-50 text-rose-800 border-rose-200"
+                    ? "bg-[#e74c3c] text-white"
                     : risk.severity === "Tinggi"
-                    ? "bg-amber-50 text-amber-800 border-amber-200"
-                    : "bg-blue-50 text-blue-800 border-blue-200";
+                    ? "bg-[#e67e22] text-white"
+                    : "bg-[#3498db] text-white";
+
+                const borderLeftColor =
+                  risk.severity === "Kritis"
+                    ? "border-l-4 border-[#e74c3c]"
+                    : risk.severity === "Tinggi"
+                    ? "border-l-4 border-[#e67e22]"
+                    : "border-l-4 border-[#3498db]";
 
                 return (
                   <div
                     key={risk.id}
-                    className="p-5 rounded-2xl border border-slate-200 bg-white shadow-sm space-y-3"
+                    className={`p-4 rounded border border-slate-200 bg-white shadow-flat space-y-2 ${borderLeftColor}`}
                   >
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                       <div className="flex items-center gap-2">
-                        <span
-                          className={`text-xs font-bold px-2.5 py-0.5 rounded-full border ${badgeColor}`}
-                        >
+                        <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${badgeColor}`}>
                           Tingkat: {risk.severity}
                         </span>
-                        <span className="text-xs text-slate-500 font-medium">
+                        <span className="text-xs text-[#7f8c8d] font-semibold">
                           Kategori: {risk.category}
                         </span>
                       </div>
                     </div>
 
-                    <h4 className="font-bold text-base text-slate-900">{risk.title}</h4>
-                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    <h4 className="font-bold text-sm text-[#2c3e50]">{risk.title}</h4>
+                    <p className="text-xs text-[#576574] leading-relaxed">
                       {risk.description}
                     </p>
 
-                    <div className="p-3 rounded-xl bg-slate-50 text-xs text-slate-700 space-y-1">
+                    <div className="p-2.5 rounded bg-[#f4f6f9] text-xs text-[#2c3e50] space-y-0.5">
                       <div>
                         <strong>Dasar Penilaian:</strong> {risk.assessmentBasis}
                       </div>
@@ -738,13 +733,13 @@ export default function AnalysisDetailPage() {
                     </div>
 
                     <div>
-                      <span className="text-xs font-semibold text-slate-800 block mb-1.5">
+                      <span className="text-[11px] font-bold text-[#2c3e50] uppercase block mb-1">
                         Langkah Mitigasi Konkret:
                       </span>
-                      <ul className="space-y-1 text-xs text-slate-600">
+                      <ul className="space-y-1 text-xs text-[#576574]">
                         {risk.mitigationSteps.map((step, sIdx) => (
-                          <li key={sIdx} className="flex items-start gap-2">
-                            <span className="text-brand-600 font-bold">•</span>
+                          <li key={sIdx} className="flex items-start gap-1.5">
+                            <span className="text-[#1abc9c] font-black">•</span>
                             <span>{step}</span>
                           </li>
                         ))}
@@ -760,42 +755,40 @@ export default function AnalysisDetailPage() {
 
       {/* TAB 5: BUSINESS AI CHATBOT */}
       {activeTab === "chat" && (
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col h-[600px] overflow-hidden">
-          {/* Chat Header */}
-          <div className="p-4 border-b border-slate-200 bg-slate-50 flex items-center justify-between">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-full bg-brand-600 text-white flex items-center justify-center">
-                <MessageSquare className="w-4 h-4" />
+        <div className="bg-white rounded border border-slate-200 shadow-flat flex flex-col h-[550px] overflow-hidden border-t-4 border-[#1abc9c]">
+          <div className="p-3.5 border-b border-slate-200 bg-[#2c3e50] text-white flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="w-7 h-7 rounded bg-[#1abc9c] text-white flex items-center justify-center font-bold text-xs">
+                AI
               </div>
               <div>
-                <h4 className="font-bold text-sm text-slate-900">
-                  Konsultasi Kontekstual AI: {record.businessName}
+                <h4 className="font-bold text-xs uppercase tracking-wider text-white">
+                  Konsultasi Analis Bisnis: {record.businessName}
                 </h4>
-                <p className="text-[11px] text-slate-500">
-                  Terisolasi khusus untuk data analisis ini. Tidak mengarang data luar.
+                <p className="text-[10px] text-[#bdc3c7]">
+                  Terisolasi pada data analisis ini. Tidak mengarang data luar.
                 </p>
               </div>
             </div>
           </div>
 
-          {/* Messages Body */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-[#f4f6f9]">
             {chatMessages.map((msg) => (
               <div
                 key={msg.id}
                 className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
               >
                 <div
-                  className={`max-w-[85%] sm:max-w-[70%] p-3.5 rounded-2xl text-xs sm:text-sm whitespace-pre-line leading-relaxed ${
+                  className={`max-w-[85%] sm:max-w-[70%] p-3 rounded text-xs whitespace-pre-line leading-relaxed shadow-flat ${
                     msg.sender === "user"
-                      ? "bg-brand-600 text-white rounded-tr-none shadow-sm"
-                      : "bg-slate-100 text-slate-800 rounded-tl-none border border-slate-200/60"
+                      ? "bg-[#1abc9c] text-white"
+                      : "bg-white text-[#2c3e50] border border-slate-200"
                   }`}
                 >
                   <p>{msg.content}</p>
                   <span
-                    className={`block text-[10px] mt-1.5 ${
-                      msg.sender === "user" ? "text-brand-200" : "text-slate-400"
+                    className={`block text-[10px] mt-1 ${
+                      msg.sender === "user" ? "text-[#a3e4d7]" : "text-[#95a5a6]"
                     }`}
                   >
                     {msg.timestamp}
@@ -805,16 +798,16 @@ export default function AnalysisDetailPage() {
             ))}
             {chatLoading && (
               <div className="flex justify-start">
-                <div className="bg-slate-100 p-3 rounded-2xl text-xs text-slate-500 flex items-center gap-2">
-                  <div className="w-3.5 h-3.5 border-2 border-brand-600 border-t-transparent rounded-full animate-spin" />
-                  <span>Analis sedang memformulasikan kalkulasi jawaban...</span>
+                <div className="bg-white p-2.5 rounded border border-slate-200 text-xs text-[#7f8c8d] flex items-center gap-2">
+                  <div className="w-3 h-3 border-2 border-[#1abc9c] border-t-transparent rounded-full animate-spin" />
+                  <span>Analis sedang memformulasikan kalkulasi...</span>
                 </div>
               </div>
             )}
           </div>
 
           {/* Quick Prompts Bar */}
-          <div className="p-2.5 bg-slate-50 border-t border-slate-200 flex gap-2 overflow-x-auto text-[11px]">
+          <div className="p-2 bg-white border-t border-slate-200 flex gap-1.5 overflow-x-auto text-[11px]">
             {[
               "Apa yang terjadi jika penjualan turun 20%?",
               "Mengapa modal saya dianggap belum mencukupi?",
@@ -824,7 +817,7 @@ export default function AnalysisDetailPage() {
               <button
                 key={idx}
                 onClick={() => handleSendMessage(qp)}
-                className="px-2.5 py-1 rounded-full bg-white border border-slate-300 hover:border-brand-500 text-slate-700 whitespace-nowrap transition-colors"
+                className="px-2.5 py-1 rounded bg-[#f4f6f9] hover:bg-slate-200 text-[#2c3e50] border border-slate-300 font-semibold whitespace-nowrap transition-colors"
               >
                 {qp}
               </button>
@@ -832,21 +825,21 @@ export default function AnalysisDetailPage() {
           </div>
 
           {/* Chat Input */}
-          <div className="p-3 border-t border-slate-200 bg-white flex gap-2 items-center">
+          <div className="p-2.5 border-t border-slate-200 bg-white flex gap-2 items-center">
             <input
               type="text"
               value={inputMessage}
               onChange={(e) => setInputMessage(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
               placeholder="Tanyakan hal spesifik tentang modal, BEP, atau risiko usaha Anda..."
-              className="flex-1 px-4 py-2 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
+              className="flex-1 px-3 py-1.5 text-xs rounded border border-slate-300 focus:outline-none focus:border-[#1abc9c]"
             />
             <button
               onClick={() => handleSendMessage()}
               disabled={chatLoading || !inputMessage.trim()}
-              className="p-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 disabled:bg-slate-300 text-white transition-colors"
+              className="px-3 py-1.5 rounded bg-[#1abc9c] hover:bg-[#16a085] disabled:bg-slate-300 text-white font-bold text-xs uppercase tracking-wider transition-colors"
             >
-              <Send className="w-4 h-4" />
+              <Send className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>

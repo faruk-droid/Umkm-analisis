@@ -9,8 +9,6 @@ import {
   Sparkles,
   ArrowRight,
   ArrowLeft,
-  CheckCircle2,
-  HelpCircle,
   AlertCircle,
   Calculator,
   Building,
@@ -96,51 +94,51 @@ export default function NewPlannerAnalysisPage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      {/* Top Header */}
-      <div className="mb-8">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Flat Header */}
+      <div className="mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b-2 border-slate-200 pb-4">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold mb-2">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded bg-[#1abc9c] text-white text-xs font-bold uppercase tracking-wider mb-2">
               <Building className="w-3.5 h-3.5" />
               <span>Jalur Calon Pengusaha (Business Planning)</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">
+            <h1 className="text-xl sm:text-2xl font-black text-[#2c3e50] uppercase tracking-wide">
               Formulir Evaluasi Rencana Usaha Baru
             </h1>
-            <p className="mt-1 text-sm text-slate-600">
-              Masukkan estimasi awal Anda. Sistem kami akan menguji kelayakan dan titik impas secara objektif.
+            <p className="mt-0.5 text-xs text-[#7f8c8d]">
+              Masukkan estimasi awal Anda. Sistem akan menguji kelayakan dan titik impas secara deterministik.
             </p>
           </div>
 
           <button
             type="button"
             onClick={handleUseDemo}
-            className="px-4 py-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 text-xs font-semibold flex items-center gap-2 self-start transition-colors"
+            className="px-3.5 py-2 rounded bg-[#f39c12] hover:bg-[#e67e22] text-white text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 border-b-2 border-[#d35400] shadow-flat self-start transition-colors"
           >
-            <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+            <Sparkles className="w-3.5 h-3.5" />
             <span>Isi Data Demo (Kopi Seduh)</span>
           </button>
         </div>
 
-        {/* Step Indicator */}
-        <div className="mt-8 grid grid-cols-4 gap-2 border-b border-slate-200 pb-4">
+        {/* 2018 Flat Step Progress Bar */}
+        <div className="mt-6 grid grid-cols-4 gap-1.5">
           {[
             { num: 1, title: "1. Profil & Model" },
-            { num: 2, title: "2. Struktur Modal & Biaya" },
+            { num: 2, title: "2. Modal & Biaya" },
             { num: 3, title: "3. Pasar & Target" },
-            { num: 4, title: "4. Review & Analisis" },
+            { num: 4, title: "4. Review & Hitung" },
           ].map((s) => (
             <button
               key={s.num}
               type="button"
               onClick={() => setStep(s.num)}
-              className={`text-left pb-2 text-xs font-semibold border-b-2 transition-colors ${
+              className={`p-2 text-center text-xs font-bold uppercase tracking-wider transition-colors border-b-4 ${
                 step === s.num
-                  ? "border-brand-600 text-brand-700"
+                  ? "bg-[#2c3e50] text-white border-[#1abc9c]"
                   : step > s.num
-                  ? "border-emerald-500 text-emerald-600"
-                  : "border-transparent text-slate-400 hover:text-slate-600"
+                  ? "bg-[#ecf0f1] text-[#27ae60] border-[#27ae60]"
+                  : "bg-[#ecf0f1] text-[#95a5a6] border-slate-300 hover:bg-slate-200"
               }`}
             >
               {s.title}
@@ -150,24 +148,24 @@ export default function NewPlannerAnalysisPage() {
       </div>
 
       {errorMsg && (
-        <div className="mb-6 p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-sm flex items-start gap-2.5">
+        <div className="mb-4 p-3 rounded bg-white border-l-4 border-[#e74c3c] border-t border-r border-b border-slate-200 text-[#c0392b] text-xs font-bold flex items-start gap-2">
           <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
           <span>{errorMsg}</span>
         </div>
       )}
 
-      {/* FORM CARD */}
-      <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-sm">
+      {/* FLAT FORM CARD */}
+      <form onSubmit={handleSubmit} className="bg-white rounded border border-slate-200 p-6 sm:p-8 shadow-flat border-t-4 border-[#1abc9c]">
         {/* STEP 1: Profil & Model Bisnis */}
         {step === 1 && (
-          <div className="space-y-6">
-            <h2 className="text-lg font-bold text-slate-900 border-b border-slate-100 pb-3">
-              Tahap 1: Profil Dasar & Model Bisnis
+          <div className="space-y-5">
+            <h2 className="text-sm font-bold text-[#2c3e50] uppercase tracking-wide border-b-2 border-slate-100 pb-2">
+              Tahap 1: Profil Usaha & Model Operasional
             </h2>
 
             <div>
-              <label className="block text-sm font-semibold text-slate-800 mb-1">
-                Nama Rencana Bisnis <span className="text-rose-500">*</span>
+              <label className="block text-xs font-bold text-[#2c3e50] uppercase mb-1">
+                Nama Rencana Bisnis <span className="text-[#e74c3c]">*</span>
               </label>
               <input
                 type="text"
@@ -175,19 +173,19 @@ export default function NewPlannerAnalysisPage() {
                 value={formData.businessName}
                 onChange={(e) => setFormData({ ...formData, businessName: e.target.value })}
                 placeholder="Contoh: Kopi Seduh Rumahan, Hijab Cantik, Bengkel Motor Cepat"
-                className="w-full px-4 py-2.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                className="w-full px-3 py-2 text-xs rounded border border-slate-300 focus:outline-none focus:border-[#1abc9c] focus:ring-1 focus:ring-[#1abc9c]"
               />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-semibold text-slate-800 mb-1">
+                <label className="block text-xs font-bold text-[#2c3e50] uppercase mb-1">
                   Kategori Usaha
                 </label>
                 <select
                   value={formData.category}
                   onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                  className="w-full px-4 py-2.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white"
+                  className="w-full px-3 py-2 text-xs rounded border border-slate-300 focus:outline-none focus:border-[#1abc9c] bg-white"
                 >
                   <option value="Makanan & Minuman (F&B)">Makanan & Minuman (F&B)</option>
                   <option value="Fashion & Pakaian">Fashion & Pakaian</option>
@@ -200,52 +198,52 @@ export default function NewPlannerAnalysisPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-800 mb-1">
+                <label className="block text-xs font-bold text-[#2c3e50] uppercase mb-1">
                   Rencana Lokasi Usaha
                 </label>
                 <input
                   type="text"
                   value={formData.location}
                   onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                  placeholder="Contoh: Bandung Timur (Area Kos Mahasiswa)"
-                  className="w-full px-4 py-2.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                  placeholder="Contoh: Bandung Timur (Dekat Kampus)"
+                  className="w-full px-3 py-2 text-xs rounded border border-slate-300 focus:outline-none focus:border-[#1abc9c]"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-slate-800 mb-2">
+              <label className="block text-xs font-bold text-[#2c3e50] uppercase mb-2">
                 Model Usaha yang Diinginkan
               </label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 {[
                   { id: "dari_rumah", title: "Dari Rumah / Dapur Pribadi", desc: "Biaya sewa Rp 0, risiko modal terendah." },
-                  { id: "pre_order", title: "Sistem Prapesan (Pre-Order)", desc: "Produksi setelah uang muka pelanggan diterima." },
-                  { id: "online", title: "Penjualan Daring (Marketplace/Medsos)", desc: "Fokus kanal digital dan pengiriman kurir." },
-                  { id: "uji_pasar_terbatas", title: "Uji Pasar Terbatas (Booth/Bazar)", desc: "Tes minat 1-4 minggu sebelum komitmen tetap." },
-                  { id: "toko_fisik", title: "Buka Toko / Ruko Fisik Mandiri", desc: "Biaya sewa tahunan & renovasi di awal (Capex tinggi)." },
-                  { id: "belum_tahu", title: "Saya Belum Menentukan", desc: "Minta AI merekomendasikan berdasarkan modal." },
+                  { id: "pre_order", title: "Sistem Prapesan (Pre-Order)", desc: "Produksi setelah uang muka pelanggan masuk." },
+                  { id: "online", title: "Penjualan Daring (Marketplace)", desc: "Fokus kanal online dan kurir ekspedisi." },
+                  { id: "uji_pasar_terbatas", title: "Uji Pasar Terbatas (Booth/Bazar)", desc: "Tes minat 1-4 minggu sebelum kontrak sewa." },
+                  { id: "toko_fisik", title: "Buka Toko / Ruko Mandiri", desc: "Sewa tahunan & renovasi di muka (Capex tinggi)." },
+                  { id: "belum_tahu", title: "Saya Belum Menentukan", desc: "Minta rekomendasi sistem berdasarkan modal." },
                 ].map((item) => (
                   <label
                     key={item.id}
-                    className={`p-3.5 rounded-xl border cursor-pointer text-left transition-all flex flex-col justify-between ${
+                    className={`p-3 rounded border cursor-pointer text-left transition-all flex flex-col justify-between ${
                       formData.businessModel === item.id
-                        ? "border-brand-600 bg-brand-50/60 ring-2 ring-brand-500/20"
-                        : "border-slate-200 hover:border-slate-300"
+                        ? "border-[#1abc9c] bg-[#e8f8f5] ring-1 ring-[#1abc9c]"
+                        : "border-slate-200 hover:border-slate-300 bg-white"
                     }`}
                   >
                     <div className="flex items-center justify-between">
-                      <span className="font-semibold text-sm text-slate-900">{item.title}</span>
+                      <span className="font-bold text-xs text-[#2c3e50]">{item.title}</span>
                       <input
                         type="radio"
                         name="businessModel"
                         value={item.id}
                         checked={formData.businessModel === item.id}
                         onChange={() => setFormData({ ...formData, businessModel: item.id as any })}
-                        className="text-brand-600 focus:ring-brand-500"
+                        className="text-[#1abc9c] focus:ring-[#1abc9c]"
                       />
                     </div>
-                    <span className="text-xs text-slate-500 mt-1">{item.desc}</span>
+                    <span className="text-[11px] text-[#7f8c8d] mt-1">{item.desc}</span>
                   </label>
                 ))}
               </div>
@@ -255,22 +253,22 @@ export default function NewPlannerAnalysisPage() {
 
         {/* STEP 2: Struktur Modal & Biaya Finansial */}
         {step === 2 && (
-          <div className="space-y-6">
-            <h2 className="text-lg font-bold text-slate-900 border-b border-slate-100 pb-3">
+          <div className="space-y-5">
+            <h2 className="text-sm font-bold text-[#2c3e50] uppercase tracking-wide border-b-2 border-slate-100 pb-2">
               Tahap 2: Struktur Modal & Estimasi Biaya
             </h2>
 
-            <div className="p-3.5 rounded-xl bg-blue-50 border border-blue-200 text-xs text-blue-900 flex items-start gap-2">
-              <Info className="w-4 h-4 shrink-0 mt-0.5 text-blue-600" />
+            <div className="p-3 rounded bg-[#f4f6f9] border-l-4 border-[#3498db] text-xs text-[#2c3e50] flex items-start gap-2">
+              <Info className="w-4 h-4 shrink-0 mt-0.5 text-[#3498db]" />
               <span>
-                <strong>Prinsip Deterministik:</strong> Kami memisahkan biaya satu kali di awal (Capex) dengan biaya tetap bulanan (Opex) dan biaya per unit produk agar perhitungan titik impas (BEP) akurat.
+                <strong>Prinsip Deterministik:</strong> Kami memisahkan belanja awal (Capex) dengan biaya tetap operasional bulanan (Opex) dan biaya variabel per unit agar kalkulasi titik impas (BEP) akurat.
               </span>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-semibold text-slate-800 mb-1">
-                  Modal Tunai yang Tersedia Saat Ini (Rp)
+                <label className="block text-xs font-bold text-[#2c3e50] uppercase mb-1">
+                  Modal Tunai Tersedia Saat Ini (Rp)
                 </label>
                 <input
                   type="number"
@@ -278,24 +276,24 @@ export default function NewPlannerAnalysisPage() {
                   step="100000"
                   value={formData.availableCapital}
                   onChange={(e) => setFormData({ ...formData, availableCapital: Number(e.target.value) })}
-                  className="w-full px-4 py-2.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                  className="w-full px-3 py-2 text-xs rounded border border-slate-300 focus:outline-none focus:border-[#1abc9c]"
                 />
-                <span className="text-xs text-slate-500 mt-1 block">
-                  Dana likuid yang siap dialokasikan untuk usaha.
+                <span className="text-[11px] text-[#7f8c8d] mt-0.5 block">
+                  Dana likuid untuk usaha.
                 </span>
               </div>
 
               <div>
                 <div className="flex justify-between items-center mb-1">
-                  <label className="text-sm font-semibold text-slate-800">
+                  <label className="text-xs font-bold text-[#2c3e50] uppercase">
                     Estimasi Belanja Awal / Alat (Rp)
                   </label>
-                  <label className="text-xs text-slate-500 flex items-center gap-1 cursor-pointer">
+                  <label className="text-[11px] text-[#7f8c8d] flex items-center gap-1 cursor-pointer">
                     <input
                       type="checkbox"
                       checked={isUnknown("initialCost")}
                       onChange={() => toggleUnknownField("initialCost")}
-                      className="rounded text-brand-600"
+                      className="rounded text-[#1abc9c]"
                     />
                     <span>Belum tahu</span>
                   </label>
@@ -307,15 +305,15 @@ export default function NewPlannerAnalysisPage() {
                   disabled={isUnknown("initialCost")}
                   value={isUnknown("initialCost") ? 0 : formData.estimatedInitialCost}
                   onChange={(e) => setFormData({ ...formData, estimatedInitialCost: Number(e.target.value) })}
-                  className="w-full px-4 py-2.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 disabled:bg-slate-100"
+                  className="w-full px-3 py-2 text-xs rounded border border-slate-300 focus:outline-none focus:border-[#1abc9c] disabled:bg-slate-100"
                 />
-                <span className="text-xs text-slate-500 mt-1 block">
-                  Peralatan, renovasi awal, mesin (biaya 1x di muka).
+                <span className="text-[11px] text-[#7f8c8d] mt-0.5 block">
+                  Peralatan, mesin, renovasi (biaya 1x).
                 </span>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-800 mb-1">
+                <label className="block text-xs font-bold text-[#2c3e50] uppercase mb-1">
                   Rencana Harga Jual per Unit (Rp)
                 </label>
                 <input
@@ -324,12 +322,12 @@ export default function NewPlannerAnalysisPage() {
                   step="1000"
                   value={formData.sellingPriceEstimate}
                   onChange={(e) => setFormData({ ...formData, sellingPriceEstimate: Number(e.target.value) })}
-                  className="w-full px-4 py-2.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                  className="w-full px-3 py-2 text-xs rounded border border-slate-300 focus:outline-none focus:border-[#1abc9c]"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-800 mb-1">
+                <label className="block text-xs font-bold text-[#2c3e50] uppercase mb-1">
                   Estimasi Biaya Variabel per Unit (Rp)
                 </label>
                 <input
@@ -338,24 +336,24 @@ export default function NewPlannerAnalysisPage() {
                   step="500"
                   value={formData.variableCostPerUnitEstimate}
                   onChange={(e) => setFormData({ ...formData, variableCostPerUnitEstimate: Number(e.target.value) })}
-                  className="w-full px-4 py-2.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                  className="w-full px-3 py-2 text-xs rounded border border-slate-300 focus:outline-none focus:border-[#1abc9c]"
                 />
-                <span className="text-xs text-slate-500 mt-1 block">
-                  Bahan baku + kemasan + ongkos langsung per 1 produk.
+                <span className="text-[11px] text-[#7f8c8d] mt-0.5 block">
+                  Bahan baku + kemasan per 1 unit.
                 </span>
               </div>
 
               <div>
                 <div className="flex justify-between items-center mb-1">
-                  <label className="text-sm font-semibold text-slate-800">
-                    Biaya Tetap Operasional Bulanan (Rp)
+                  <label className="text-xs font-bold text-[#2c3e50] uppercase">
+                    Biaya Tetap Bulanan (Rp)
                   </label>
-                  <label className="text-xs text-slate-500 flex items-center gap-1 cursor-pointer">
+                  <label className="text-[11px] text-[#7f8c8d] flex items-center gap-1 cursor-pointer">
                     <input
                       type="checkbox"
                       checked={isUnknown("fixedCost")}
                       onChange={() => toggleUnknownField("fixedCost")}
-                      className="rounded text-brand-600"
+                      className="rounded text-[#1abc9c]"
                     />
                     <span>Belum tahu</span>
                   </label>
@@ -367,16 +365,16 @@ export default function NewPlannerAnalysisPage() {
                   disabled={isUnknown("fixedCost")}
                   value={isUnknown("fixedCost") ? 1000000 : formData.monthlyFixedCostEstimate}
                   onChange={(e) => setFormData({ ...formData, monthlyFixedCostEstimate: Number(e.target.value) })}
-                  className="w-full px-4 py-2.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 disabled:bg-slate-100"
+                  className="w-full px-3 py-2 text-xs rounded border border-slate-300 focus:outline-none focus:border-[#1abc9c] disabled:bg-slate-100"
                 />
-                <span className="text-xs text-slate-500 mt-1 block">
-                  Listrik, sewa per bulan, kuota internet, gaji dasar.
+                <span className="text-[11px] text-[#7f8c8d] mt-0.5 block">
+                  Listrik, sewa, internet, gaji pokok.
                 </span>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-800 mb-1">
-                  Target Volume Penjualan Bulanan (Unit)
+                <label className="block text-xs font-bold text-[#2c3e50] uppercase mb-1">
+                  Target Penjualan Bulanan (Unit)
                 </label>
                 <input
                   type="number"
@@ -384,11 +382,8 @@ export default function NewPlannerAnalysisPage() {
                   step="10"
                   value={formData.expectedMonthlySalesVolume}
                   onChange={(e) => setFormData({ ...formData, expectedMonthlySalesVolume: Number(e.target.value) })}
-                  className="w-full px-4 py-2.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                  className="w-full px-3 py-2 text-xs rounded border border-slate-300 focus:outline-none focus:border-[#1abc9c]"
                 />
-                <span className="text-xs text-slate-500 mt-1 block">
-                  Target penjualan realistis (contoh: 300 unit = ~10 unit/hari).
-                </span>
               </div>
             </div>
           </div>
@@ -396,45 +391,45 @@ export default function NewPlannerAnalysisPage() {
 
         {/* STEP 3: Pasar, Produk, & Pengalaman */}
         {step === 3 && (
-          <div className="space-y-6">
-            <h2 className="text-lg font-bold text-slate-900 border-b border-slate-100 pb-3">
+          <div className="space-y-5">
+            <h2 className="text-sm font-bold text-[#2c3e50] uppercase tracking-wide border-b-2 border-slate-100 pb-2">
               Tahap 3: Target Pasar, Produk, & Pengalaman
             </h2>
 
             <div>
-              <label className="block text-sm font-semibold text-slate-800 mb-1">
-                Deskripsi Produk atau Layanan yang Ditawarkan
+              <label className="block text-xs font-bold text-[#2c3e50] uppercase mb-1">
+                Deskripsi Produk / Layanan
               </label>
               <textarea
                 rows={2}
                 value={formData.productDescription}
                 onChange={(e) => setFormData({ ...formData, productDescription: e.target.value })}
-                placeholder="Jelaskan apa yang Anda jual, keunggulan rasa/kualitas, atau ukuran kemasannya..."
-                className="w-full px-4 py-2.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                placeholder="Jelaskan produk, keunggulan kualitas, atau kemasan yang ditawarkan..."
+                className="w-full px-3 py-2 text-xs rounded border border-slate-300 focus:outline-none focus:border-[#1abc9c]"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-slate-800 mb-1">
+              <label className="block text-xs font-bold text-[#2c3e50] uppercase mb-1">
                 Target Konsumen Utama
               </label>
               <input
                 type="text"
                 value={formData.targetMarket}
                 onChange={(e) => setFormData({ ...formData, targetMarket: e.target.value })}
-                placeholder="Contoh: Karyawan kantor usia 22-35 tahun yang butuh sarapan cepat & sehat"
-                className="w-full px-4 py-2.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                placeholder="Contoh: Mahasiswa dan pekerja kantor muda usia 20-35 tahun"
+                className="w-full px-3 py-2 text-xs rounded border border-slate-300 focus:outline-none focus:border-[#1abc9c]"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-slate-800 mb-1">
+              <label className="block text-xs font-bold text-[#2c3e50] uppercase mb-1">
                 Pengalaman Bisnis Sebelumnya
               </label>
               <select
                 value={formData.previousExperience}
                 onChange={(e) => setFormData({ ...formData, previousExperience: e.target.value as any })}
-                className="w-full px-4 py-2.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white"
+                className="w-full px-3 py-2 text-xs rounded border border-slate-300 focus:outline-none focus:border-[#1abc9c] bg-white"
               >
                 <option value="tidak_ada">Belum ada pengalaman wirausaha (Pertama kali)</option>
                 <option value="kurang_dari_1_tahun">Pernah mencoba usaha kurang dari 1 tahun</option>
@@ -444,15 +439,15 @@ export default function NewPlannerAnalysisPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-slate-800 mb-1">
-                Catatan Tambahan atau Rencana Khusus (Opsional)
+              <label className="block text-xs font-bold text-[#2c3e50] uppercase mb-1">
+                Catatan Tambahan (Opsional)
               </label>
               <textarea
                 rows={2}
                 value={formData.notes || ""}
                 onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                placeholder="Contoh: Rencana titip jual di 3 warung dekat rumah, promosi via WhatsApp Story..."
-                className="w-full px-4 py-2.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                placeholder="Rencana saluran promosi atau strategi khusus..."
+                className="w-full px-3 py-2 text-xs rounded border border-slate-300 focus:outline-none focus:border-[#1abc9c]"
               />
             </div>
           </div>
@@ -460,57 +455,57 @@ export default function NewPlannerAnalysisPage() {
 
         {/* STEP 4: Review & Analisis */}
         {step === 4 && (
-          <div className="space-y-6">
-            <h2 className="text-lg font-bold text-slate-900 border-b border-slate-100 pb-3">
-              Tahap 4: Konfirmasi & Siap Menganalisis
+          <div className="space-y-5">
+            <h2 className="text-sm font-bold text-[#2c3e50] uppercase tracking-wide border-b-2 border-slate-100 pb-2">
+              Tahap 4: Konfirmasi Data & Siap Analisis
             </h2>
 
-            <div className="bg-slate-50 rounded-xl p-5 border border-slate-200 text-sm space-y-3">
-              <div className="flex justify-between border-b border-slate-200 pb-2">
-                <span className="text-slate-500">Nama Bisnis:</span>
-                <span className="font-bold text-slate-900">{formData.businessName || "(Belum diisi)"}</span>
+            <div className="bg-[#f4f6f9] rounded p-4 border border-slate-200 text-xs space-y-2.5">
+              <div className="flex justify-between border-b border-slate-200 pb-1.5">
+                <span className="text-[#7f8c8d]">Nama Bisnis:</span>
+                <span className="font-bold text-[#2c3e50]">{formData.businessName || "(Belum diisi)"}</span>
               </div>
-              <div className="flex justify-between border-b border-slate-200 pb-2">
-                <span className="text-slate-500">Kategori & Lokasi:</span>
-                <span className="font-medium text-slate-800">{formData.category} • {formData.location || "Belum ditentukan"}</span>
+              <div className="flex justify-between border-b border-slate-200 pb-1.5">
+                <span className="text-[#7f8c8d]">Kategori & Lokasi:</span>
+                <span className="font-bold text-[#2c3e50]">{formData.category} • {formData.location || "Belum ditentukan"}</span>
               </div>
-              <div className="flex justify-between border-b border-slate-200 pb-2">
-                <span className="text-slate-500">Modal Tersedia:</span>
-                <span className="font-semibold text-emerald-700">Rp {formData.availableCapital.toLocaleString("id-ID")}</span>
+              <div className="flex justify-between border-b border-slate-200 pb-1.5">
+                <span className="text-[#7f8c8d]">Modal Tersedia:</span>
+                <span className="font-bold text-[#27ae60]">Rp {formData.availableCapital.toLocaleString("id-ID")}</span>
               </div>
-              <div className="flex justify-between border-b border-slate-200 pb-2">
-                <span className="text-slate-500">Estimasi Biaya Awal (Capex):</span>
-                <span className="font-semibold text-slate-800">Rp {formData.estimatedInitialCost.toLocaleString("id-ID")}</span>
+              <div className="flex justify-between border-b border-slate-200 pb-1.5">
+                <span className="text-[#7f8c8d]">Belanja Awal (Capex):</span>
+                <span className="font-bold text-[#2c3e50]">Rp {formData.estimatedInitialCost.toLocaleString("id-ID")}</span>
               </div>
-              <div className="flex justify-between border-b border-slate-200 pb-2">
-                <span className="text-slate-500">Margin Kontribusi Estimasi:</span>
-                <span className="font-semibold text-brand-700">
+              <div className="flex justify-between border-b border-slate-200 pb-1.5">
+                <span className="text-[#7f8c8d]">Estimasi Margin Kontribusi:</span>
+                <span className="font-bold text-[#1abc9c]">
                   Rp {(formData.sellingPriceEstimate - formData.variableCostPerUnitEstimate).toLocaleString("id-ID")} / unit
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-500">Target Volume Bulanan:</span>
-                <span className="font-medium text-slate-800">{formData.expectedMonthlySalesVolume} unit</span>
+                <span className="text-[#7f8c8d]">Target Volume Bulanan:</span>
+                <span className="font-bold text-[#2c3e50]">{formData.expectedMonthlySalesVolume} unit</span>
               </div>
             </div>
 
             {formData.unknownFields.length > 0 && (
-              <div className="p-4 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-900">
-                <strong>Catatan Kelengkapan:</strong> Anda menandai {formData.unknownFields.length} data dengan &quot;Belum Tahu&quot;. Analisis akan menyertakan batas ketidakpastian dan rekomendasi riset mandiri.
+              <div className="p-3 rounded bg-[#fef9e7] border-l-4 border-[#f39c12] text-xs text-[#7d6608]">
+                <strong>Catatan Kelengkapan:</strong> Anda menandai {formData.unknownFields.length} kolom dengan &quot;Belum Tahu&quot;. Analisis akan menyertakan batas ketidakpastian.
               </div>
             )}
           </div>
         )}
 
-        {/* Navigation Buttons */}
-        <div className="mt-8 pt-6 border-t border-slate-200 flex justify-between items-center">
+        {/* Flat Navigation Buttons */}
+        <div className="mt-8 pt-4 border-t border-slate-200 flex justify-between items-center">
           {step > 1 ? (
             <button
               type="button"
               onClick={() => setStep(step - 1)}
-              className="px-4 py-2.5 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-50 font-medium text-sm flex items-center gap-1.5 transition-colors"
+              className="px-4 py-2 rounded bg-[#95a5a6] hover:bg-[#7f8c8d] text-white font-bold text-xs uppercase tracking-wider flex items-center gap-1.5 border-b-2 border-[#7f8c8d] shadow-flat transition-colors"
             >
-              <ArrowLeft className="w-4 h-4" />
+              <ArrowLeft className="w-3.5 h-3.5" />
               <span>Kembali</span>
             </button>
           ) : (
@@ -521,21 +516,21 @@ export default function NewPlannerAnalysisPage() {
             <button
               type="button"
               onClick={() => setStep(step + 1)}
-              className="px-6 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-medium text-sm flex items-center gap-1.5 shadow-sm transition-colors"
+              className="px-5 py-2 rounded bg-[#1abc9c] hover:bg-[#16a085] text-white font-bold text-xs uppercase tracking-wider flex items-center gap-1.5 border-b-2 border-[#117a65] shadow-flat transition-colors"
             >
               <span>Lanjut</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-3.5 h-3.5" />
             </button>
           ) : (
             <button
               type="submit"
               disabled={loading}
-              className="px-6 py-3 rounded-xl bg-brand-600 hover:bg-brand-700 disabled:bg-slate-400 text-white font-bold text-sm flex items-center gap-2 shadow-lg shadow-brand-600/30 transition-all"
+              className="px-5 py-2.5 rounded bg-[#2c3e50] hover:bg-[#34495e] disabled:bg-slate-400 text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 border-b-2 border-[#1a252f] shadow-flat transition-all"
             >
               {loading ? (
                 <>
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  <span>Memproses Perhitungan Finansial & AI...</span>
+                  <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  <span>Memproses Perhitungan & AI...</span>
                 </>
               ) : (
                 <>

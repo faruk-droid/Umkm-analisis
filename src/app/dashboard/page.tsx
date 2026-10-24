@@ -14,9 +14,7 @@ import {
   Trash2,
   RefreshCw,
   Search,
-  ExternalLink,
   DollarSign,
-  AlertCircle,
 } from "lucide-react";
 
 export default function DashboardPage() {
@@ -62,29 +60,29 @@ export default function DashboardPage() {
   const latestAnalysis = analyses[0];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-      {/* Header & Demo Notice */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+      {/* Flat Dashboard Header */}
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b-2 border-slate-200 pb-5">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
+          <h1 className="text-2xl font-black text-[#2c3e50] uppercase tracking-wide">
             Dashboard Keputusan Bisnis
           </h1>
-          <p className="mt-1 text-sm text-slate-600">
+          <p className="text-xs text-[#7f8c8d] mt-0.5">
             Kelola dan evaluasi portofolio kelayakan usaha Anda secara terpusat.
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2">
           <Link
             href="/analysis/new/planner"
-            className="px-4 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-medium text-xs sm:text-sm flex items-center gap-2 shadow-sm transition-colors"
+            className="px-4 py-2 rounded bg-[#1abc9c] hover:bg-[#16a085] text-white font-bold text-xs uppercase tracking-wider flex items-center gap-1.5 border-b-2 border-[#117a65] shadow-flat transition-colors"
           >
             <FilePlus className="w-4 h-4" />
             <span>+ Rencana Baru</span>
           </Link>
           <Link
             href="/analysis/new/growth"
-            className="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-medium text-xs sm:text-sm flex items-center gap-2 shadow-sm transition-colors"
+            className="px-4 py-2 rounded bg-[#3498db] hover:bg-[#2980b9] text-white font-bold text-xs uppercase tracking-wider flex items-center gap-1.5 border-b-2 border-[#20638f] shadow-flat transition-colors"
           >
             <TrendingUp className="w-4 h-4" />
             <span>+ Evaluasi Usaha</span>
@@ -92,50 +90,52 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Honest Demo Mode Banner */}
-      <div className="p-4 rounded-xl bg-amber-50 border border-amber-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs sm:text-sm text-amber-900">
+      {/* Flat Demo Mode Callout */}
+      <div className="p-3.5 rounded bg-white border-l-4 border-[#f39c12] border-t border-r border-b border-slate-200 shadow-flat flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-[#2c3e50]">
         <div className="flex items-start gap-2.5">
-          <ShieldAlert className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+          <ShieldAlert className="w-4 h-4 text-[#f39c12] shrink-0 mt-0.5" />
           <span>
-            <strong>Mode Demo Lokal Aktif:</strong> Data analisis tersimpan dengan aman pada penyimpanan peramban (localStorage) Anda. Tidak ada data yang dikirim ke server pihak ketiga tanpa konfigurasi akun.
+            <strong>Mode Demo Lokal Aktif:</strong> Data analisis tersimpan dengan aman pada penyimpanan peramban (localStorage) Anda. Tidak ada data yang dikirim ke server luar.
           </span>
         </div>
         <button
           onClick={handleResetDemo}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-amber-300 text-amber-800 hover:bg-amber-100/50 text-xs font-semibold shrink-0"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#f4f6f9] hover:bg-slate-200 text-[#2c3e50] border border-slate-300 text-xs font-bold uppercase tracking-wider shrink-0"
         >
           <RefreshCw className="w-3.5 h-3.5" />
           <span>Muat Ulang Data Demo</span>
         </button>
       </div>
 
-      {/* Summary Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-          <span className="text-xs font-medium text-slate-500 uppercase tracking-wider">
+      {/* 2018 Flat Metric Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {/* Card 1: Turquoise Accent */}
+        <div className="bg-white p-5 rounded border border-slate-200 shadow-flat border-t-4 border-[#1abc9c]">
+          <span className="text-[11px] font-bold text-[#7f8c8d] uppercase tracking-wider">
             Total Analisis Dibuat
           </span>
           <div className="mt-2 flex items-baseline justify-between">
-            <span className="text-3xl font-extrabold text-slate-900">{analyses.length}</span>
-            <FileText className="w-5 h-5 text-slate-400" />
+            <span className="text-3xl font-black text-[#2c3e50]">{analyses.length}</span>
+            <FileText className="w-5 h-5 text-[#1abc9c]" />
           </div>
-          <span className="mt-2 text-xs text-slate-500 block">
+          <span className="mt-2 text-xs text-[#7f8c8d] block font-medium">
             {analyses.filter((a) => a.serviceType === "planner").length} Perencanaan •{" "}
             {analyses.filter((a) => a.serviceType === "growth").length} Optimasi
           </span>
         </div>
 
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-          <span className="text-xs font-medium text-slate-500 uppercase tracking-wider">
+        {/* Card 2: Peter River Accent */}
+        <div className="bg-white p-5 rounded border border-slate-200 shadow-flat border-t-4 border-[#3498db]">
+          <span className="text-[11px] font-bold text-[#7f8c8d] uppercase tracking-wider">
             Analisis Terakhir
           </span>
           <div className="mt-2 flex items-baseline justify-between">
-            <span className="text-lg font-bold text-slate-900 truncate max-w-[200px]">
+            <span className="text-lg font-bold text-[#2c3e50] truncate max-w-[200px]">
               {latestAnalysis ? latestAnalysis.businessName : "Belum Ada"}
             </span>
-            <Calendar className="w-5 h-5 text-slate-400" />
+            <Calendar className="w-5 h-5 text-[#3498db]" />
           </div>
-          <span className="mt-2 text-xs text-slate-500 block">
+          <span className="mt-2 text-xs text-[#7f8c8d] block font-medium">
             {latestAnalysis
               ? new Date(latestAnalysis.createdAt).toLocaleDateString("id-ID", {
                   day: "numeric",
@@ -146,70 +146,71 @@ export default function DashboardPage() {
           </span>
         </div>
 
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-          <span className="text-xs font-medium text-slate-500 uppercase tracking-wider">
+        {/* Card 3: Orange Accent */}
+        <div className="bg-white p-5 rounded border border-slate-200 shadow-flat border-t-4 border-[#e67e22]">
+          <span className="text-[11px] font-bold text-[#7f8c8d] uppercase tracking-wider">
             Status Keuangan Terbaru
           </span>
           <div className="mt-2 flex items-center justify-between">
             <span
-              className={`text-sm font-bold px-2.5 py-1 rounded-full ${
+              className={`text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded ${
                 latestAnalysis?.financialMetrics.isProfitable
-                  ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
-                  : "bg-rose-50 text-rose-700 border border-rose-200"
+                  ? "bg-[#2ecc71] text-white"
+                  : "bg-[#e74c3c] text-white"
               }`}
             >
               {latestAnalysis?.financialMetrics.isProfitable
                 ? "Laba Proyektif"
                 : "Defisit Operasional"}
             </span>
-            <DollarSign className="w-5 h-5 text-slate-400" />
+            <DollarSign className="w-5 h-5 text-[#e67e22]" />
           </div>
-          <span className="mt-2 text-xs text-slate-500 block">
-            BEP: {latestAnalysis?.financialMetrics.bepUnits ? `${latestAnalysis.financialMetrics.bepUnits} unit/bln` : "Perlu Penyesuaian Biaya"}
+          <span className="mt-2 text-xs text-[#7f8c8d] block font-medium">
+            BEP: {latestAnalysis?.financialMetrics.bepUnits ? `${latestAnalysis.financialMetrics.bepUnits} unit/bln` : "Perlu Penyesuaian"}
           </span>
         </div>
       </div>
 
-      {/* Filter and Search Bar */}
-      <div className="flex flex-col sm:flex-row justify-between gap-4 items-center bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-        <div className="relative w-full sm:w-80">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+      {/* Flat Filter and Search Bar */}
+      <div className="flex flex-col sm:flex-row justify-between gap-3 items-center bg-white p-3 rounded border border-slate-200 shadow-flat">
+        <div className="relative w-full sm:w-72">
+          <Search className="w-4 h-4 text-[#95a5a6] absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Cari nama bisnis, kategori, kota..."
-            className="w-full pl-9 pr-4 py-2 text-sm rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
+            placeholder="Cari nama bisnis, kota..."
+            className="w-full pl-9 pr-3 py-1.5 text-xs rounded border border-slate-300 focus:outline-none focus:border-[#1abc9c] focus:ring-1 focus:ring-[#1abc9c]"
           />
         </div>
 
-        <div className="flex items-center gap-2 w-full sm:w-auto">
+        <div className="flex items-center gap-1.5 w-full sm:w-auto">
           <button
             onClick={() => setFilterType("all")}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+            className={`px-3 py-1 rounded text-xs font-bold uppercase tracking-wider transition-colors ${
               filterType === "all"
-                ? "bg-brand-600 text-white"
-                : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                ? "bg-[#2c3e50] text-white"
+                : "bg-slate-100 text-[#7f8c8d] hover:bg-slate-200"
             }`}
           >
             Semua ({analyses.length})
           </button>
           <button
             onClick={() => setFilterType("planner")}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+            className={`px-3 py-1 rounded text-xs font-bold uppercase tracking-wider transition-colors ${
               filterType === "planner"
-                ? "bg-brand-600 text-white"
-                : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                ? "bg-[#1abc9c] text-white"
+                : "bg-slate-100 text-[#7f8c8d] hover:bg-slate-200"
             }`}
           >
             Perencanaan
           </button>
           <button
             onClick={() => setFilterType("growth")}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+            className={`px-3 py-1 rounded text-xs font-bold uppercase tracking-wider transition-colors ${
               filterType === "growth"
-                ? "bg-brand-600 text-white"
-                : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                ? "bg-[#3498db] text-white"
+                : "bg-slate-100 text-[#7f8c8d] hover:bg-slate-200"
             }`}
           >
             Usaha Berjalan
@@ -217,28 +218,28 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* List of Analysis Cards */}
-      <div className="space-y-4">
-        <h2 className="text-lg font-bold text-slate-900">
+      {/* List of Analysis Cards (Flat Style) */}
+      <div className="space-y-3">
+        <h2 className="text-base font-bold text-[#2c3e50] uppercase tracking-wide">
           Daftar Arsip Analisis ({filteredAnalyses.length})
         </h2>
 
         {loading ? (
-          <div className="p-12 text-center text-slate-500 bg-white rounded-2xl border border-slate-200">
+          <div className="p-8 text-center text-xs text-[#7f8c8d] bg-white rounded border border-slate-200">
             Memuat data analisis...
           </div>
         ) : filteredAnalyses.length === 0 ? (
-          <div className="p-12 text-center bg-white rounded-2xl border border-slate-200">
-            <FileText className="w-12 h-12 text-slate-300 mx-auto mb-3" />
-            <h3 className="text-base font-semibold text-slate-800">
-              Belum ada arsip analisis yang sesuai
+          <div className="p-8 text-center bg-white rounded border border-slate-200">
+            <FileText className="w-10 h-10 text-slate-300 mx-auto mb-2" />
+            <h3 className="text-sm font-bold text-[#2c3e50] uppercase">
+              Belum ada arsip analisis
             </h3>
-            <p className="mt-1 text-xs text-slate-500 max-w-sm mx-auto">
-              Silakan buat analisis baru atau klik tombol &quot;Muat Ulang Data Demo&quot; di atas.
+            <p className="mt-1 text-xs text-[#7f8c8d]">
+              Klik tombol &quot;Muat Ulang Data Demo&quot; di atas untuk mengisi contoh analisis.
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredAnalyses.map((item) => {
               const isGrowth = item.serviceType === "growth";
               const fin = item.financialMetrics;
@@ -246,20 +247,22 @@ export default function DashboardPage() {
               return (
                 <div
                   key={item.id}
-                  className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm hover:border-brand-300 hover:shadow-md transition-all flex flex-col justify-between"
+                  className={`bg-white rounded border border-slate-200 p-5 shadow-flat flex flex-col justify-between ${
+                    isGrowth ? "border-t-4 border-t-[#3498db]" : "border-t-4 border-t-[#1abc9c]"
+                  }`}
                 >
                   <div>
-                    <div className="flex items-center justify-between gap-2 mb-3">
+                    <div className="flex items-center justify-between gap-2 mb-2">
                       <span
-                        className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full ${
+                        className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${
                           isGrowth
-                            ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
-                            : "bg-blue-50 text-blue-800 border border-blue-200"
+                            ? "bg-[#3498db] text-white"
+                            : "bg-[#1abc9c] text-white"
                         }`}
                       >
                         {isGrowth ? "Usaha Berjalan" : "Rencana Baru"}
                       </span>
-                      <span className="text-[11px] text-slate-500">
+                      <span className="text-[11px] text-[#95a5a6] font-medium">
                         {new Date(item.createdAt).toLocaleDateString("id-ID", {
                           day: "numeric",
                           month: "short",
@@ -267,49 +270,48 @@ export default function DashboardPage() {
                       </span>
                     </div>
 
-                    <h3 className="font-bold text-base text-slate-900 leading-snug line-clamp-1">
+                    <h3 className="font-bold text-base text-[#2c3e50] leading-snug line-clamp-1">
                       {item.businessName}
                     </h3>
-                    <p className="text-xs text-slate-500 mt-1">
+                    <p className="text-xs text-[#7f8c8d] mt-0.5">
                       {item.category} • {item.location}
                     </p>
 
-                    {/* Snapshot Financial Badge */}
-                    <div className="mt-4 p-3 rounded-xl bg-slate-50 border border-slate-100 space-y-1.5 text-xs">
-                      <div className="flex justify-between text-slate-600">
+                    {/* Snapshot Financial Block */}
+                    <div className="mt-3 p-2.5 rounded bg-[#f4f6f9] border border-slate-200 space-y-1 text-xs">
+                      <div className="flex justify-between text-[#576574]">
                         <span>Laba Operasional:</span>
                         <span
-                          className={`font-semibold ${
-                            fin.monthlyOperatingProfit >= 0 ? "text-emerald-700" : "text-rose-700"
+                          className={`font-bold ${
+                            fin.monthlyOperatingProfit >= 0 ? "text-[#27ae60]" : "text-[#c0392b]"
                           }`}
                         >
                           Rp {fin.monthlyOperatingProfit.toLocaleString("id-ID")}/bln
                         </span>
                       </div>
-                      <div className="flex justify-between text-slate-600">
+                      <div className="flex justify-between text-[#576574]">
                         <span>BEP Penjualan:</span>
-                        <span className="font-semibold text-slate-900">
+                        <span className="font-bold text-[#2c3e50]">
                           {fin.bepUnits ? `${fin.bepUnits} unit/bln` : "Defisit Unit"}
                         </span>
                       </div>
-                      <div className="flex justify-between text-slate-600">
+                      <div className="flex justify-between text-[#576574]">
                         <span>Ketahanan Modal:</span>
-                        <span className="font-semibold text-slate-900">
+                        <span className="font-bold text-[#2c3e50]">
                           {fin.capitalAdequacyStatus}
                         </span>
                       </div>
                     </div>
 
-                    {/* Summary excerpt */}
-                    <p className="mt-3 text-xs text-slate-600 line-clamp-2 leading-relaxed">
+                    <p className="mt-2.5 text-xs text-[#576574] line-clamp-2 leading-relaxed">
                       {item.aiReport.executiveSummary}
                     </p>
                   </div>
 
-                  <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between gap-2">
+                  <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
                     <button
                       onClick={() => handleDelete(item.id, item.businessName)}
-                      className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors"
+                      className="p-1.5 text-[#95a5a6] hover:text-[#e74c3c] hover:bg-slate-100 rounded transition-colors"
                       title="Hapus analisis"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -317,9 +319,9 @@ export default function DashboardPage() {
 
                     <Link
                       href={`/analysis/${item.id}`}
-                      className="px-3.5 py-1.5 rounded-lg bg-brand-50 hover:bg-brand-100 text-brand-700 font-semibold text-xs flex items-center gap-1.5 transition-colors"
+                      className="px-3 py-1.5 rounded bg-[#2c3e50] hover:bg-[#34495e] text-white font-bold text-xs uppercase tracking-wider flex items-center gap-1 transition-colors"
                     >
-                      <span>Buka Laporan Lengkap</span>
+                      <span>Buka Laporan</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
                   </div>
