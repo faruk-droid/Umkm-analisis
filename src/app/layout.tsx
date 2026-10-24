@@ -8,7 +8,7 @@ import { APP_CONFIG } from "@/lib/config";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: `${APP_CONFIG.name} - Sistem Pendukung Keputusan Bisnis UMKM`,
+  title: `${APP_CONFIG.name} - opsi tepat, bukan sekedar firasat`,
   description: APP_CONFIG.description,
 };
 

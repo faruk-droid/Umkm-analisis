@@ -19,15 +19,10 @@ export default function HomePage() {
       {/* 2018 FLAT HERO SECTION */}
       <section className="bg-[#34495e] text-white py-14 border-b-4 border-[#2c3e50]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#2c3e50] border border-[#4a6572] text-[#1abc9c] text-xs font-bold uppercase tracking-wider mb-6 rounded">
-            <Scale className="w-3.5 h-3.5" />
-            <span>Sistem Pendukung Keputusan Berbasis Data</span>
-          </div>
-
-          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight text-white">
-            Keputusan Bisnis Terukur,{" "}
+          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight text-white mb-2">
+            opsi tepat,{" "}
             <span className="text-[#1abc9c] underline decoration-[#16a085] decoration-4 underline-offset-8">
-              Bukan Sekadar Firasat
+              bukan sekedar firasat
             </span>
           </h1>
 

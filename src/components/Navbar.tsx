@@ -36,11 +36,8 @@ export default function Navbar() {
               <TrendingUp className="w-5 h-5" />
             </div>
             <div>
-              <span className="font-bold text-base tracking-normal text-white block">
+              <span className="font-bold text-lg tracking-wider text-white block">
                 {APP_CONFIG.name}
-              </span>
-              <span className="text-[10px] text-[#1abc9c] font-semibold tracking-wider uppercase block -mt-1">
-                Sistem Pendukung Keputusan
               </span>
             </div>
           </Link>

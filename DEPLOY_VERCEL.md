@@ -1,4 +1,4 @@
-# Panduan Deploy ke Vercel — UMKM Insight AI
+# Panduan Deploy ke Vercel — SMART-BIZ
 
 Proyek ini telah dikonfigurasi penuh dengan Next.js 14 App Router dan siap dideploy ke Vercel secara *zero-config*.
 
@@ -27,7 +27,7 @@ git push -u origin main
 2. Klik tombol **"Add New..."** lalu pilih **"Project"**.
 3. Cari repository `umkm-insight-ai` yang baru Anda buat, lalu klik **"Import"**.
 4. Di bagian **Environment Variables**, Anda bisa menambahkan variabel (opsional):
-   - `NEXT_PUBLIC_APP_NAME` : `UMKM Insight AI`
+   - `NEXT_PUBLIC_APP_NAME` : `SMART-BIZ`
    - `GEMINI_API_KEY` : *(Kunci API Google Gemini Anda jika ingin AI aktif)*
    - `NEXT_PUBLIC_DEMO_MODE` : `true`
    *(Catatan: Jika `GEMINI_API_KEY` tidak diisi, platform tetap berfungsi 100% menggunakan Expert Rule-Based Advisor)*.

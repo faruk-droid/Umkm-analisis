@@ -1,4 +1,4 @@
-# UMKM Insight AI — Sistem Pendukung Keputusan Bisnis Cerdas & Berbasis Data
+# SMART-BIZ — Opsi Tepat, Bukan Sekedar Firasat
 
 Platform web analitik keputusan bisnis yang membantu calon pengusaha dan pelaku Usaha Mikro, Kecil, dan Menengah (UMKM) mengevaluasi kelayakan rencana usaha, menguji ketahanan modal, menghitung titik impas (Break-Even Point), dan menganalisis risiko bisnis secara terukur sebelum modal terlanjur diinvestasikan.
 
@@ -81,7 +81,7 @@ Buka peramban di `http://localhost:3000`.
 
 Lihat `.env.example`:
 ```env
-NEXT_PUBLIC_APP_NAME="UMKM Insight AI"
+NEXT_PUBLIC_APP_NAME="SMART-BIZ"
 
 # Opsional: Jika kosong, aplikasi menggunakan Expert Rule-Based Advisor yang cepat & gratis
 GEMINI_API_KEY=""
