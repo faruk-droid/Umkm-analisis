@@ -26,11 +26,12 @@ git push -u origin main
 1. Buka [vercel.com](https://vercel.com) dan login (bisa login dengan akun GitHub).
 2. Klik tombol **"Add New..."** lalu pilih **"Project"**.
 3. Cari repository `umkm-insight-ai` yang baru Anda buat, lalu klik **"Import"**.
-4. Di bagian **Environment Variables**, Anda bisa menambahkan variabel (opsional):
+4. Di bagian **Environment Variables**, tambahkan variabel:
    - `NEXT_PUBLIC_APP_NAME` : `SMART-BIZ`
-   - `GEMINI_API_KEY` : *(Kunci API Google Gemini Anda jika ingin AI aktif)*
+   - `AI_PROVIDER` : `gemini`
+   - `GEMINI_API_KEY` : *(Buat satu key server-side di [Google AI Studio](https://aistudio.google.com/apikey))*
    - `NEXT_PUBLIC_DEMO_MODE` : `true`
-   *(Catatan: Jika `GEMINI_API_KEY` tidak diisi, platform tetap berfungsi 100% menggunakan Expert Rule-Based Advisor)*.
+   *(Jika key tidak diisi, aplikasi tetap menggunakan analisis deterministik. Jangan gunakan prefix `NEXT_PUBLIC_` pada key.)*
 5. Klik **"Deploy"**.
 6. Tunggu sekitar 1-2 menit hingga proses build selesai. Domain gratis dari Vercel (misal: `umkm-insight-ai.vercel.app`) akan langsung aktif!
 

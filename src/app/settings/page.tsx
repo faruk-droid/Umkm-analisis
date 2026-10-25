@@ -2,26 +2,39 @@
 
 import { useState, useEffect } from "react";
 import { APP_CONFIG } from "@/lib/config";
-import { Settings, Key, Database, RefreshCw, CheckCircle2 } from "lucide-react";
+import { Settings, Key, Database, RefreshCw, CheckCircle2, ExternalLink } from "lucide-react";
+
+interface AIStatus {
+  configured: boolean;
+  provider: "gemini" | "openai" | null;
+  model: string | null;
+  note: string;
+}
 
 export default function SettingsPage() {
   const [appName, setAppName] = useState(APP_CONFIG.name);
-  const [apiKey, setApiKey] = useState("");
   const [saveSuccess, setSaveSuccess] = useState(false);
+  const [aiStatus, setAiStatus] = useState<AIStatus | null>(null);
+  const [aiStatusError, setAiStatusError] = useState("");
 
   useEffect(() => {
     const savedName = localStorage.getItem("umkm_app_name");
-    const savedKey = localStorage.getItem("umkm_user_gemini_key");
     if (savedName) setAppName(savedName);
-    if (savedKey) setApiKey(savedKey);
+    localStorage.removeItem("umkm_user_gemini_key");
+
+    fetch("/api/ai/status", { cache: "no-store" })
+      .then(async (response) => {
+        if (!response.ok) throw new Error("Status AI tidak dapat diperiksa.");
+        setAiStatus((await response.json()) as AIStatus);
+      })
+      .catch((error: unknown) => {
+        setAiStatusError(error instanceof Error ? error.message : "Status AI tidak dapat diperiksa.");
+      });
   }, []);
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
     localStorage.setItem("umkm_app_name", appName);
-    if (apiKey) {
-      localStorage.setItem("umkm_user_gemini_key", apiKey);
-    }
     setSaveSuccess(true);
     setTimeout(() => setSaveSuccess(false), 3000);
   };
@@ -42,14 +55,14 @@ export default function SettingsPage() {
           <span>Pengaturan & Konfigurasi Platform</span>
         </h1>
         <p className="mt-0.5 text-xs text-[#7f8c8d]">
-          Kustomisasi nama kerja proyek, kelola kunci API AI, dan periksa status database.
+          Kustomisasi nama proyek dan periksa status integrasi AI serta penyimpanan.
         </p>
       </div>
 
       {saveSuccess && (
         <div className="p-3 rounded bg-white border-l-4 border-[#2ecc71] border-t border-r border-b border-slate-200 text-[#27ae60] text-xs font-bold flex items-center gap-2">
           <CheckCircle2 className="w-4 h-4" />
-          <span>Konfigurasi berhasil disimpan di lingkungan lokal!</span>
+          <span>Nama proyek berhasil disimpan di peramban ini.</span>
         </div>
       )}
 
@@ -71,18 +84,39 @@ export default function SettingsPage() {
         <div className="pt-4 border-t border-slate-100">
           <h2 className="text-xs font-bold text-[#2c3e50] uppercase tracking-wide flex items-center gap-1.5 mb-0.5">
             <Key className="w-4 h-4 text-[#1abc9c]" />
-            <span>Kunci API Google Gemini (Opsional)</span>
+            <span>Integrasi AI Gemini</span>
           </h2>
-          <p className="text-[11px] text-[#7f8c8d] mb-2">
-            Jika dikosongkan, platform otomatis menggunakan <strong>Expert Rule-Based Engine</strong> yang 100% deterministik, tajam, dan tidak memerlukan biaya API.
-          </p>
-          <input
-            type="password"
-            value={apiKey}
-            onChange={(e) => setApiKey(e.target.value)}
-            placeholder="AIzaSy..."
-            className="w-full sm:w-96 px-3 py-1.5 text-xs rounded border border-slate-300 focus:outline-none focus:border-[#1abc9c]"
-          />
+          <div className="mb-3 rounded border border-slate-200 bg-[#f4f6f9] p-3 text-[11px] text-[#576574] space-y-2">
+            <p>
+              Pengunjung website tidak perlu login. Pemilik aplikasi cukup mengatur satu{" "}
+              <code>GEMINI_API_KEY</code> sebagai environment variable server. Key tidak disimpan di
+              browser dan tidak perlu dikirim melalui chat.
+            </p>
+            <p className="flex items-center gap-1.5">
+              <span>Status:</span>
+              <strong className={aiStatus?.configured ? "text-[#27ae60]" : "text-[#d35400]"}>
+                {aiStatus
+                  ? aiStatus.configured
+                    ? `${aiStatus.provider === "gemini" ? "Gemini" : "OpenAI"} terkonfigurasi${aiStatus.model ? ` (${aiStatus.model})` : ""}`
+                    : "Belum dikonfigurasi — analisis deterministik tetap aktif"
+                  : aiStatusError || "Memeriksa konfigurasi server..."}
+              </strong>
+            </p>
+            {aiStatus?.configured && <p>{aiStatus.note}</p>}
+            <a
+              href="https://aistudio.google.com/apikey"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1 font-bold text-[#2980b9] underline underline-offset-2"
+            >
+              Buat Gemini API key di Google AI Studio
+              <ExternalLink className="h-3 w-3" />
+            </a>
+            <p>
+              Lokal: simpan key di <code>.env.local</code>, lalu restart server. Vercel: tambahkan
+              key pada Project Settings → Environment Variables, kemudian redeploy.
+            </p>
+          </div>
         </div>
 
         <div className="pt-4 border-t border-slate-100 flex justify-end">

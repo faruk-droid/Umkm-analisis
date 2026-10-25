@@ -96,7 +96,8 @@ export async function POST(req: NextRequest) {
       scenarios,
       risks,
       isGrowth,
-      financialReportText
+      financialReportText,
+      isGrowth ? (financialReportText ? "provided" : "missing") : "not_required"
     );
     if (financialReportText) {
       aiReport.financialReportSummary = analyzeFinancialReport(financialReportText);

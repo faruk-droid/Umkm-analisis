@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { BUSINESS_CHAT_SYSTEM_PROMPT } from "@/lib/ai/prompts";
 import { BusinessAnalysisRecord } from "@/types";
 import { simulateSensitivity } from "@/lib/finance/calculator";
+import { getAIProviderConfig, GEMINI_MODEL } from "@/lib/ai/provider";
 
 export async function POST(req: NextRequest) {
   try {
@@ -18,11 +19,11 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const geminiKey = process.env.GEMINI_API_KEY;
+    const providerConfig = getAIProviderConfig();
     const qLower = message.toLowerCase();
 
     // 1. Respon Heuristik Cepat & Tepat jika menyangkut simulasi atau offline fallback
-    if (!geminiKey) {
+    if (!providerConfig) {
       let reply = "";
 
       if (qLower.includes("turun") && (qLower.includes("penjualan") || qLower.includes("omset") || qLower.includes("volume"))) {
@@ -77,8 +78,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ reply });
     }
 
-    // 2. Jika ada Gemini API Key, gunakan LLM dengan konteks terisolasi
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiKey}`;
+    // 2. Jika ada API key, gunakan provider server-side dengan konteks terisolasi
     const contextPrompt = `${BUSINESS_CHAT_SYSTEM_PROMPT}
 
 Konteks Snapshot Analisis Bisnis Saat Ini:
@@ -94,25 +94,45 @@ Pertanyaan Pengguna:
 ${message}
 `;
 
-    const res = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [
-          {
-            role: "user",
-            parts: [{ text: contextPrompt }],
-          },
-        ],
-      }),
-    });
+    let reply: string | undefined;
+    if (providerConfig.provider === "gemini") {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-goog-api-key": providerConfig.apiKey,
+        },
+        body: JSON.stringify({
+          contents: [{ role: "user", parts: [{ text: contextPrompt }] }],
+        }),
+      });
 
-    if (!res.ok) {
-      throw new Error("Gemini chat API error");
+      if (!res.ok) throw new Error("Gemini chat API error");
+      const data = await res.json();
+      reply = data.candidates?.[0]?.content?.parts?.[0]?.text;
+    } else {
+      const res = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${providerConfig.apiKey}`,
+        },
+        body: JSON.stringify({
+          model: "gpt-4o-mini",
+          messages: [
+            { role: "system", content: BUSINESS_CHAT_SYSTEM_PROMPT },
+            { role: "user", content: contextPrompt },
+          ],
+        }),
+      });
+
+      if (!res.ok) throw new Error("OpenAI chat API error");
+      const data = await res.json();
+      reply = data.choices?.[0]?.message?.content;
     }
 
-    const data = await res.json();
-    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "Maaf, tidak dapat memproses jawaban saat ini.";
+    if (!reply) throw new Error("Provider AI tidak mengembalikan jawaban.");
     return NextResponse.json({ reply });
   } catch (err: any) {
     console.error("Chat API error:", err);

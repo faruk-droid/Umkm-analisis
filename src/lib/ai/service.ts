@@ -9,6 +9,7 @@ import {
   ScenarioResult,
 } from "@/types";
 import { BUSINESS_ANALYST_SYSTEM_PROMPT } from "./prompts";
+import { getAIProviderConfig, GEMINI_MODEL } from "./provider";
 
 export const AIReportZodSchema = z.object({
   executiveSummary: z.string(),
@@ -48,7 +49,12 @@ export const AIReportZodSchema = z.object({
 /**
  * Menghitung skor kualitas dan kelengkapan data secara transparan
  */
-export function calculateDataConfidence(formData: PlannerFormData | GrowthFormData): {
+export type FinancialReportStatus = "provided" | "missing" | "not_required";
+
+export function calculateDataConfidence(
+  formData: PlannerFormData | GrowthFormData,
+  financialReportStatus: FinancialReportStatus = "not_required"
+): {
   level: ConfidenceLevel;
   scorePercent: number;
   explanation: string;
@@ -86,6 +92,12 @@ export function calculateDataConfidence(formData: PlannerFormData | GrowthFormDa
     if (!formData.lowSellingProduct) {
       missingCriticalData.push("Data produk dengan perputaran rendah belum dievaluasi");
     }
+    if (financialReportStatus === "missing") {
+      penalty += 15;
+      missingCriticalData.push(
+        "Laporan keuangan historis belum dilampirkan; analisis hanya menggunakan input formulir."
+      );
+    }
   }
 
   const rawScore = Math.max(20, Math.min(95, 100 - penalty));
@@ -93,12 +105,16 @@ export function calculateDataConfidence(formData: PlannerFormData | GrowthFormDa
   if (rawScore >= 75) level = "Tinggi";
   else if (rawScore < 50) level = "Rendah";
 
-  const explanation =
+  const baseExplanation =
     level === "Tinggi"
       ? "Kualitas data input memadai untuk kalkulasi unit ekonomi dasar, namun tetap membutuhkan validasi respons pasar riil."
       : level === "Sedang"
       ? "Data cukup untuk estimasi simulasi awal, tetapi beberapa variabel biaya dan volume masih berupa asumsi mentah."
       : "Banyak variabel kunci masih belum teridentifikasi. Hasil analisis harus diposisikan sebagai pemetaan awal, BUKAN dasar final investasi.";
+  const explanation =
+    financialReportStatus === "missing" && !("businessModel" in formData)
+      ? `${baseExplanation} Laporan keuangan historis belum dilampirkan, sehingga angka input belum dapat direkonsiliasi dengan catatan aktual.`
+      : baseExplanation;
 
   return {
     level,
@@ -117,9 +133,10 @@ export function generateExpertRuleBasedReport(
   financials: FinancialMetrics,
   scenarios: ScenarioResult[],
   risks: RiskItem[],
-  isGrowth: boolean
+  isGrowth: boolean,
+  financialReportStatus: FinancialReportStatus = "not_required"
 ): AIAnalysisReport {
-  const confidence = calculateDataConfidence(formData);
+  const confidence = calculateDataConfidence(formData, financialReportStatus);
   const name = formData.businessName || "Rencana Usaha";
 
   const isProfitable = financials.monthlyOperatingProfit > 0;
@@ -245,13 +262,22 @@ export async function generateAIAnalysis(
   scenarios: ScenarioResult[],
   risks: RiskItem[],
   isGrowth: boolean,
-  financialReportText?: string
+  financialReportText?: string,
+  financialReportStatus: FinancialReportStatus = "not_required"
 ): Promise<AIAnalysisReport> {
-  const geminiKey = process.env.GEMINI_API_KEY;
-  const openAIKey = process.env.OPENAI_API_KEY;
+  const providerConfig = getAIProviderConfig();
+  const geminiKey = providerConfig?.provider === "gemini" ? providerConfig.apiKey : undefined;
+  const openAIKey = providerConfig?.provider === "openai" ? providerConfig.apiKey : undefined;
   const hasFinancialReport = Boolean(financialReportText?.trim());
   const generateFallbackReport = () => {
-    const report = generateExpertRuleBasedReport(formData, financials, scenarios, risks, isGrowth);
+    const report = generateExpertRuleBasedReport(
+      formData,
+      financials,
+      scenarios,
+      risks,
+      isGrowth,
+      financialReportStatus
+    );
     if (hasFinancialReport) {
       report.executiveSummary +=
         "\n\nLampiran keuangan ikut diproses. Lihat bagian rekonsiliasi laporan untuk angka yang terdeteksi dan pemeriksaan konsistensinya.";
@@ -283,10 +309,13 @@ export async function generateAIAnalysis(
 
     if (geminiKey) {
       // Call Google Gemini API
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiKey}`;
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
       const res = await fetch(url, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "x-goog-api-key": geminiKey,
+        },
         body: JSON.stringify({
           contents: [
             {
@@ -318,7 +347,10 @@ export async function generateAIAnalysis(
         const parsed = JSON.parse(rawText);
         const validated = AIReportZodSchema.safeParse(parsed);
         if (validated.success) {
-          return validated.data;
+          return {
+            ...validated.data,
+            dataConfidenceScore: calculateDataConfidence(formData, financialReportStatus),
+          };
         }
       }
     } else if (openAIKey) {
@@ -354,7 +386,10 @@ export async function generateAIAnalysis(
         const parsed = JSON.parse(rawText);
         const validated = AIReportZodSchema.safeParse(parsed);
         if (validated.success) {
-          return validated.data;
+          return {
+            ...validated.data,
+            dataConfidenceScore: calculateDataConfidence(formData, financialReportStatus),
+          };
         }
       }
     }

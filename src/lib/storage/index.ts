@@ -41,7 +41,14 @@ export function createDemoRecord(type: "planner" | "growth"): BusinessAnalysisRe
   const financials = calculateFinancialMetrics(financialParams);
   const scenarios = generateScenarios(financialParams);
   const risks = assessBusinessRisks(formData, financials, isGrowth);
-  const aiReport = generateExpertRuleBasedReport(formData, financials, scenarios, risks, isGrowth);
+  const aiReport = generateExpertRuleBasedReport(
+    formData,
+    financials,
+    scenarios,
+    risks,
+    isGrowth,
+    isGrowth ? "missing" : "not_required"
+  );
 
   return {
     id: isGrowth ? "demo-growth-01" : "demo-planner-01",

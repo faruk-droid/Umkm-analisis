@@ -419,7 +419,7 @@ export default function AnalysisDetailPage() {
                   <span>Tingkat Keyakinan Analisis (Data Confidence Score)</span>
                 </h3>
                 <p className="text-[11px] text-[#7f8c8d]">
-                  Bukan skor kepastian buatan, melainkan rasio kelengkapan parameter data input.
+                  Skor kelengkapan input dan lampiran, bukan kepastian hasil bisnis. Jalur Growth tanpa laporan keuangan mendapat penalti 15 poin.
                 </p>
               </div>
 
@@ -450,7 +450,7 @@ export default function AnalysisDetailPage() {
             {record.aiReport.dataConfidenceScore.missingCriticalData.length > 0 && (
               <div className="mt-3 p-3 rounded bg-[#f4f6f9] border border-slate-200">
                 <span className="text-[11px] font-bold text-[#2c3e50] uppercase block mb-1.5">
-                  Data yang Perlu Diverifikasi Lebih Lanjut:
+                  Data yang Perlu Dilengkapi atau Diverifikasi:
                 </span>
                 <ul className="space-y-1 text-xs text-[#576574]">
                   {record.aiReport.dataConfidenceScore.missingCriticalData.map((miss, idx) => (

@@ -83,9 +83,10 @@ Lihat `.env.example`:
 ```env
 NEXT_PUBLIC_APP_NAME="SMART-BIZ"
 
-# Opsional: Jika kosong, aplikasi menggunakan Expert Rule-Based Advisor yang cepat & gratis
+# Server-side AI provider. Pengunjung website tidak perlu login.
 GEMINI_API_KEY=""
 OPENAI_API_KEY=""
+AI_PROVIDER="gemini"
 
 # Opsional: Konfigurasi Supabase
 NEXT_PUBLIC_SUPABASE_URL=""
@@ -95,7 +96,9 @@ SUPABASE_SERVICE_ROLE_KEY=""
 NEXT_PUBLIC_DEMO_MODE="true"
 ```
 
-Lampiran laporan PDF teks, XLSX, atau CSV dapat diproses tanpa API key. Sistem mengekstrak angka utama laba rugi, arus kas, dan neraca yang labelnya dikenali, lalu menjalankan pemeriksaan aritmetika dasar. Angka historis dari lampiran ditampilkan terpisah dari skenario bulanan yang tetap dihitung menggunakan input formulir; validasi periode dan interpretasi akuntansi tetap perlu dilakukan manual. Jika API key dikonfigurasi, teks lampiran juga dapat dianalisis oleh provider AI.
+Untuk mengaktifkan AI, buat satu key di [Google AI Studio](https://aistudio.google.com/apikey), simpan sebagai `GEMINI_API_KEY` di `.env.local`, lalu restart `npm run dev`. Untuk Vercel, tambahkan key di **Project Settings → Environment Variables** dan redeploy. Jangan memakai variabel `NEXT_PUBLIC_` untuk key dan jangan commit atau membagikannya. Model Gemini yang digunakan adalah `gemini-3.5-flash-lite`. Pengunjung aplikasi tidak perlu akun; pemilik perlu masuk ke Google AI Studio untuk membuat key. Kuota dan biaya mengikuti ketentuan provider.
+
+Lampiran laporan PDF teks, XLSX, atau CSV dapat diproses tanpa API key. Sistem mengekstrak angka utama laba rugi, arus kas, dan neraca yang labelnya dikenali, lalu menjalankan pemeriksaan aritmetika dasar. Angka historis dari lampiran ditampilkan terpisah dari skenario bulanan yang tetap dihitung menggunakan input formulir; validasi periode dan interpretasi akuntansi tetap perlu dilakukan manual. Pada jalur Growth, jika laporan tidak dilampirkan, Data Confidence dikurangi 15 poin dan daftar verifikasi menandai bahwa analisis hanya memakai input formulir. Jalur Planner tidak memerlukan lampiran historis. Jika API key dikonfigurasi, teks lampiran juga dapat dianalisis oleh provider AI.
 
 ---
 
