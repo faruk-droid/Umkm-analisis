@@ -1,0 +1,71 @@
+bagian,akun,periode,nominal_rp
+Laba Rugi,Penjualan Eggcium Feed 500gr,Tanggal awal kegiatan s.d. 30 Oktober 2026,60000
+Laba Rugi,Penjualan Eggcium Feed 1kg,Tanggal awal kegiatan s.d. 30 Oktober 2026,300000
+Laba Rugi,Penjualan Eggcium Growth,Tanggal awal kegiatan s.d. 30 Oktober 2026,88000
+Laba Rugi,Penjualan Bundling Eggcium Feed + New hope (1),Tanggal awal kegiatan s.d. 30 Oktober 2026,2278000
+Laba Rugi,Penjualan Bundling Eggcium Feed + New hope (2),Tanggal awal kegiatan s.d. 30 Oktober 2026,2350000
+Laba Rugi,Penjualan Bundling Eggcium Feed + Dedak,Tanggal awal kegiatan s.d. 30 Oktober 2026,180000
+Laba Rugi,Penjualan Bundling Eggcium Feed + Nasi Kering,Tanggal awal kegiatan s.d. 30 Oktober 2026,60000
+Laba Rugi,Penjualan Bundling Eggcium Feed + Konsentrat,Tanggal awal kegiatan s.d. 30 Oktober 2026,512000
+Laba Rugi,Penjualan Bundling Eggcium Feed + Tray,Tanggal awal kegiatan s.d. 30 Oktober 2026,600000
+Laba Rugi,Penjualan 10 Produk Eggcium Baru,Tanggal awal kegiatan s.d. 30 Oktober 2026,100000
+Laba Rugi,Total Pendapatan,Tanggal awal kegiatan s.d. 30 Oktober 2026,6528000
+Laba Rugi,HPP Eggcium Feed 500gr,Tanggal awal kegiatan s.d. 30 Oktober 2026,34000
+Laba Rugi,HPP Eggcium Feed 1kg,Tanggal awal kegiatan s.d. 30 Oktober 2026,285000
+Laba Rugi,HPP Eggcium Growth,Tanggal awal kegiatan s.d. 30 Oktober 2026,40000
+Laba Rugi,HPP Bundling Eggcium Feed + New hope (1),Tanggal awal kegiatan s.d. 30 Oktober 2026,2188000
+Laba Rugi,HPP Bundling Eggcium Feed + New hope (2),Tanggal awal kegiatan s.d. 30 Oktober 2026,2188000
+Laba Rugi,HPP Bundling Eggcium Feed + Dedak,Tanggal awal kegiatan s.d. 30 Oktober 2026,160000
+Laba Rugi,HPP Bundling Eggcium Feed + Nasi Kering,Tanggal awal kegiatan s.d. 30 Oktober 2026,35000
+Laba Rugi,HPP Bundling Eggcium Feed + Konsentrat,Tanggal awal kegiatan s.d. 30 Oktober 2026,487000
+Laba Rugi,HPP Bundling Eggcium Feed + Tray,Tanggal awal kegiatan s.d. 30 Oktober 2026,575000
+Laba Rugi,Total Harga Pokok Penjualan (HPP),Tanggal awal kegiatan s.d. 30 Oktober 2026,5992000
+Laba Rugi,Total Laba Kotor,Tanggal awal kegiatan s.d. 30 Oktober 2026,536000
+Laba Rugi,Beban promosi,Tanggal awal kegiatan s.d. 30 Oktober 2026,50000
+Laba Rugi,Total Beban Operasional,Tanggal awal kegiatan s.d. 30 Oktober 2026,50000
+Laba Rugi,Laba Bersih,Tanggal awal kegiatan s.d. 30 Oktober 2026,486000
+Arus Kas,Penerimaan kas dari penjualan,1 April 2026 s.d. 30 Oktober 2026,6528000
+Arus Kas,Pengeluaran kas untuk bahan baku,1 April 2026 s.d. 30 Oktober 2026,-203464
+Arus Kas,Pengeluaran kas untuk pembelian produk New hope,1 April 2026 s.d. 30 Oktober 2026,-4318000
+Arus Kas,Pengeluaran kas untuk pembelian nasi kering,1 April 2026 s.d. 30 Oktober 2026,-37500
+Arus Kas,Pengeluaran kas untuk pembelian tray,1 April 2026 s.d. 30 Oktober 2026,-530000
+Arus Kas,Pengeluaran kas untuk pembelian dedak,1 April 2026 s.d. 30 Oktober 2026,-144000
+Arus Kas,Pengeluaran kas untuk pembelian konsentrat,1 April 2026 s.d. 30 Oktober 2026,-490000
+Arus Kas,Pengeluaran kas untuk kegiatan promosi,1 April 2026 s.d. 30 Oktober 2026,-1847500
+Arus Kas,Pengeluaran untuk jasa design,1 April 2026 s.d. 30 Oktober 2026,-200000
+Arus Kas,Pengeluaran kas untuk penunjang produksi,1 April 2026 s.d. 30 Oktober 2026,-1205000
+Arus Kas,Pengeluaran kas untuk packaging produk,1 April 2026 s.d. 30 Oktober 2026,-1735190
+Arus Kas,Pengeluaran kas untuk stiker hologram,1 April 2026 s.d. 30 Oktober 2026,-195000
+Arus Kas,Pengeluaran kas untuk perizinan,1 April 2026 s.d. 30 Oktober 2026,-655000
+Arus Kas,Pengeluaran kas untuk ATK,1 April 2026 s.d. 30 Oktober 2026,-186000
+Arus Kas,Pengeluaran kas untuk pengembangan SDM,1 April 2026 s.d. 30 Oktober 2026,-300000
+Arus Kas,Subtotal penerimaan operasional,1 April 2026 s.d. 30 Oktober 2026,6528000
+Arus Kas,Subtotal pengeluaran operasional,1 April 2026 s.d. 30 Oktober 2026,-12046654
+Arus Kas,Kas Bersih dari Kegiatan Operasional,1 April 2026 s.d. 30 Oktober 2026,-5518654
+Arus Kas,Pengeluaran kas pembelian harta tetap,1 April 2026 s.d. 30 Oktober 2026,-679769
+Arus Kas,Kas Bersih dari Kegiatan Investasi,1 April 2026 s.d. 30 Oktober 2026,-679769
+Arus Kas,Penerimaan kas dari modal awal,1 April 2026 s.d. 30 Oktober 2026,8050000
+Arus Kas,Kas Bersih dari Kegiatan Pembiayaan,1 April 2026 s.d. 30 Oktober 2026,8050000
+Arus Kas,Total Kas Bersih (Saldo Kas Akhir),1 April 2026 s.d. 30 Oktober 2026,1851577
+Neraca,Kas dan Setara Kas,1 April 2026 s.d. 30 Oktober 2026,1851577
+Neraca,Persediaan Produk,1 April 2026 s.d. 30 Oktober 2026,611000
+Neraca,Persediaan Alat Penunjang Produksi,1 April 2026 s.d. 30 Oktober 2026,1605564
+Neraca,Persediaan Bahan Kemasan,1 April 2026 s.d. 30 Oktober 2026,1305500
+Neraca,Beban Promosi Dibayar Dimuka,1 April 2026 s.d. 30 Oktober 2026,1090000
+Neraca,Beban Pengujian Dibayar Dimuka,1 April 2026 s.d. 30 Oktober 2026,655000
+Neraca,Aset Sertifikasi,1 April 2026 s.d. 30 Oktober 2026,300000
+Neraca,Total Aset Lancar,1 April 2026 s.d. 30 Oktober 2026,7118641
+Neraca,Blender,1 April 2026 s.d. 30 Oktober 2026,674106
+Neraca,Mesin Nota Cetak,1 April 2026 s.d. 30 Oktober 2026,124000
+Neraca,Pengisi Kapsul,1 April 2026 s.d. 30 Oktober 2026,99660
+Neraca,Akumulasi Penyusutan,1 April 2026 s.d. 30 Oktober 2026,-14410
+Neraca,Total Aset Tetap Setelah Penyusutan,1 April 2026 s.d. 30 Oktober 2026,865359
+Neraca,Persediaan ATK,1 April 2026 s.d. 30 Oktober 2026,157000
+Neraca,Aset Design,1 April 2026 s.d. 30 Oktober 2026,200000
+Neraca,Persediaan Souvenir Stiker,1 April 2026 s.d. 30 Oktober 2026,195000
+Neraca,Total Aset Lain-lain,1 April 2026 s.d. 30 Oktober 2026,552000
+Neraca,Total Aset Keseluruhan,1 April 2026 s.d. 30 Oktober 2026,8536000
+Neraca,Total Liabilitas,1 April 2026 s.d. 30 Oktober 2026,0
+Neraca,Modal Awal,1 April 2026 s.d. 30 Oktober 2026,8050000
+Neraca,Laba Bersih,1 April 2026 s.d. 30 Oktober 2026,486000
+Neraca,Total Ekuitas,1 April 2026 s.d. 30 Oktober 2026,8536000

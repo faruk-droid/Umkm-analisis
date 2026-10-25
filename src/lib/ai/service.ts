@@ -244,14 +244,31 @@ export async function generateAIAnalysis(
   financials: FinancialMetrics,
   scenarios: ScenarioResult[],
   risks: RiskItem[],
-  isGrowth: boolean
+  isGrowth: boolean,
+  financialReportText?: string
 ): Promise<AIAnalysisReport> {
   const geminiKey = process.env.GEMINI_API_KEY;
   const openAIKey = process.env.OPENAI_API_KEY;
+  const hasFinancialReport = Boolean(financialReportText?.trim());
+  const generateFallbackReport = () => {
+    const report = generateExpertRuleBasedReport(formData, financials, scenarios, risks, isGrowth);
+    if (hasFinancialReport) {
+      report.executiveSummary +=
+        "\n\nLampiran keuangan ikut diproses. Lihat bagian rekonsiliasi laporan untuk angka yang terdeteksi dan pemeriksaan konsistensinya.";
+      report.dataConfidenceScore.explanation +=
+        " Angka pada lampiran diekstrak berdasarkan label yang dikenali; periode dan dasar pencatatannya perlu dicocokkan dengan input bulanan.";
+      report.dataConfidenceScore.missingCriticalData.push(
+        "Cocokkan periode laporan dan angka historis dengan asumsi bulanan pada formulir"
+      );
+      report.disclaimer +=
+        " Angka lampiran ditampilkan sebagai data laporan dan tidak menggantikan kalkulasi berdasarkan formulir.";
+    }
+    return report;
+  };
 
   // Jika tidak ada API key, gunakan Expert Rule-Based Advisor yang deterministik
   if (!geminiKey && !openAIKey) {
-    return generateExpertRuleBasedReport(formData, financials, scenarios, risks, isGrowth);
+    return generateFallbackReport();
   }
 
   try {
@@ -261,6 +278,7 @@ export async function generateAIAnalysis(
       scenarios,
       risks,
       isGrowth,
+      financialReportText,
     };
 
     if (geminiKey) {
@@ -290,8 +308,8 @@ export async function generateAIAnalysis(
       });
 
       if (!res.ok) {
-        console.warn("Gemini API returned error, falling back to Expert Rule-Based Engine.");
-        return generateExpertRuleBasedReport(formData, financials, scenarios, risks, isGrowth);
+        console.warn("Gemini API returned error, falling back to deterministic analysis.");
+        return generateFallbackReport();
       }
 
       const data = await res.json();
@@ -303,10 +321,47 @@ export async function generateAIAnalysis(
           return validated.data;
         }
       }
+    } else if (openAIKey) {
+      const res = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${openAIKey}`,
+        },
+        body: JSON.stringify({
+          model: "gpt-4o-mini",
+          response_format: { type: "json_object" },
+          temperature: 0.2,
+          messages: [
+            { role: "system", content: BUSINESS_ANALYST_SYSTEM_PROMPT },
+            {
+              role: "user",
+              content: `Konteks Data Bisnis:\n${JSON.stringify(
+                promptContext
+              )}\n\nKeluarkan JSON murni sesuai skema AIAnalysisReport tanpa awalan teks apapun.`,
+            },
+          ],
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Provider AI gagal memproses laporan keuangan.");
+      }
+
+      const data = await res.json();
+      const rawText = data.choices?.[0]?.message?.content;
+      if (rawText) {
+        const parsed = JSON.parse(rawText);
+        const validated = AIReportZodSchema.safeParse(parsed);
+        if (validated.success) {
+          return validated.data;
+        }
+      }
     }
   } catch (err) {
-    console.error("AI Generation failed, using robust fallback:", err);
+    console.error("AI generation failed, using deterministic fallback:", err);
+    return generateFallbackReport();
   }
 
-  return generateExpertRuleBasedReport(formData, financials, scenarios, risks, isGrowth);
+  return generateFallbackReport();
 }

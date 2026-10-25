@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { GrowthFormData } from "@/types";
+import { BusinessAnalysisRecord, GrowthFormData } from "@/types";
 import { SAMPLE_GROWTH_DATA } from "@/lib/sample-data";
 import { StorageService } from "@/lib/storage";
+import { readJsonResponse } from "@/lib/api-response";
 import {
   Sparkles,
   ArrowRight,
@@ -13,13 +14,20 @@ import {
   TrendingUp,
   BarChart2,
   Info,
+  Upload,
+  FileText,
+  X,
 } from "lucide-react";
 
 export default function NewGrowthAnalysisPage() {
+  const maxFinancialReportSize = 4 * 1024 * 1024;
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const [financialReport, setFinancialReport] = useState<File | null>(null);
+  const [financialReportError, setFinancialReportError] = useState("");
+  const financialReportInputRef = useRef<HTMLInputElement>(null);
 
   const [formData, setFormData] = useState<GrowthFormData>({
     businessName: "",
@@ -45,6 +53,30 @@ export default function NewGrowthAnalysisPage() {
     setErrorMsg("");
   };
 
+  const handleFinancialReportChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = event.target.files?.[0];
+    setFinancialReportError("");
+
+    if (!selectedFile) {
+      setFinancialReport(null);
+      return;
+    }
+    if (!/\.(pdf|xlsx|csv)$/i.test(selectedFile.name)) {
+      setFinancialReport(null);
+      setFinancialReportError("Gunakan file PDF, XLSX, atau CSV.");
+      event.target.value = "";
+      return;
+    }
+    if (selectedFile.size > maxFinancialReportSize) {
+      setFinancialReport(null);
+      setFinancialReportError("Ukuran laporan maksimal 4 MB.");
+      event.target.value = "";
+      return;
+    }
+
+    setFinancialReport(selectedFile);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.businessName.trim()) {
@@ -57,22 +89,25 @@ export default function NewGrowthAnalysisPage() {
     setErrorMsg("");
 
     try {
-      const res = await fetch("/api/ai/analyze", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          serviceType: "growth",
-          formData,
-        }),
-      });
-
-      if (!res.ok) {
-        throw new Error("Gagal mengevaluasi data usaha.");
+      const requestBody = new FormData();
+      requestBody.set("serviceType", "growth");
+      requestBody.set("formData", JSON.stringify(formData));
+      if (financialReport) {
+        requestBody.set("financialReport", financialReport);
       }
 
-      const record = await res.json();
-      await StorageService.saveAnalysis(record);
-      router.push(`/analysis/${record.id}`);
+      const res = await fetch("/api/ai/analyze", {
+        method: "POST",
+        body: requestBody,
+      });
+
+      const result = await readJsonResponse<BusinessAnalysisRecord & { error?: string }>(res);
+      if (!res.ok) {
+        throw new Error(result.error || "Gagal mengevaluasi data usaha.");
+      }
+
+      await StorageService.saveAnalysis(result);
+      router.push(`/analysis/${result.id}`);
     } catch (err: any) {
       console.error(err);
       setErrorMsg(err.message || "Terjadi kendala saat mengevaluasi usaha.");
@@ -104,7 +139,7 @@ export default function NewGrowthAnalysisPage() {
             className="px-3.5 py-2 rounded bg-[#f39c12] hover:bg-[#e67e22] text-white text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 border-b-2 border-[#d35400] shadow-flat self-start transition-colors"
           >
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Isi Data Demo (Keripik Singkong)</span>
+            <span>Isi Data Demo (Eggcium)</span>
           </button>
         </div>
 
@@ -295,6 +330,80 @@ export default function NewGrowthAnalysisPage() {
                   Bahan baku + kemasan per 1 unit.
                 </span>
               </div>
+            </div>
+
+            <div className="border-t border-slate-100 pt-4">
+              <label className="block text-xs font-bold text-[#2c3e50] uppercase mb-2">
+                Lampiran Laporan Keuangan (Opsional)
+              </label>
+              <input
+                ref={financialReportInputRef}
+                id="financial-report"
+                type="file"
+                accept=".pdf,.xlsx,.csv"
+                className="sr-only"
+                onChange={handleFinancialReportChange}
+              />
+              {financialReportError && (
+                <p role="alert" className="mb-2 text-xs font-bold text-[#c0392b]">
+                  {financialReportError}
+                </p>
+              )}
+              {financialReport ? (
+                <div className="flex items-center justify-between gap-3 border border-slate-300 rounded px-3 py-2">
+                  <div className="flex min-w-0 items-center gap-2">
+                    <FileText className="w-4 h-4 shrink-0 text-[#3498db]" />
+                    <div className="min-w-0">
+                      <p className="truncate text-xs font-bold text-[#2c3e50]">
+                        {financialReport.name}
+                      </p>
+                      <p className="text-[11px] text-[#7f8c8d]">
+                        {financialReport.size >= 1024 * 1024
+                          ? `${(financialReport.size / 1024 / 1024).toFixed(2)} MB`
+                          : `${Math.max(1, Math.round(financialReport.size / 1024))} KB`}
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setFinancialReport(null);
+                      if (financialReportInputRef.current) {
+                        financialReportInputRef.current.value = "";
+                      }
+                    }}
+                    aria-label="Hapus lampiran laporan keuangan"
+                    title="Hapus lampiran"
+                    className="shrink-0 rounded p-1 text-slate-500 hover:bg-slate-100 hover:text-[#c0392b]"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              ) : (
+                <label
+                  htmlFor="financial-report"
+                  className="flex cursor-pointer items-center gap-3 rounded border border-dashed border-slate-300 px-3 py-3 hover:border-[#3498db] hover:bg-slate-50 focus-within:ring-2 focus-within:ring-[#3498db]"
+                >
+                  <Upload className="w-4 h-4 shrink-0 text-[#3498db]" />
+                  <span className="text-xs font-bold text-[#2c3e50]">
+                    Pilih file laporan keuangan
+                    <span className="mt-0.5 block text-[11px] font-normal text-[#7f8c8d]">
+                      PDF teks, XLSX, atau CSV; maksimal 4 MB
+                    </span>
+                  </span>
+                </label>
+              )}
+              <p className="mt-2 text-[11px] text-[#7f8c8d]">
+                Jika provider AI tersedia, teks laporan digunakan untuk analisis AI. Tanpa provider,
+                sistem hanya mengenali beberapa angka keuangan secara lokal. File tidak disimpan.
+              </p>
+              <a
+                href="/eggcium-financial-report.csv"
+                download
+                className="mt-2 inline-flex text-[11px] font-bold text-[#2980b9] underline underline-offset-2 hover:text-[#1f618d]"
+              >
+                Unduh contoh CSV laporan keuangan Eggcium
+              </a>
             </div>
           </div>
         )}

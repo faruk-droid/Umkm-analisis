@@ -95,6 +95,8 @@ SUPABASE_SERVICE_ROLE_KEY=""
 NEXT_PUBLIC_DEMO_MODE="true"
 ```
 
+Lampiran laporan PDF teks, XLSX, atau CSV dapat diproses tanpa API key. Sistem mengekstrak angka utama laba rugi, arus kas, dan neraca yang labelnya dikenali, lalu menjalankan pemeriksaan aritmetika dasar. Angka historis dari lampiran ditampilkan terpisah dari skenario bulanan yang tetap dihitung menggunakan input formulir; validasi periode dan interpretasi akuntansi tetap perlu dilakukan manual. Jika API key dikonfigurasi, teks lampiran juga dapat dianalisis oleh provider AI.
+
 ---
 
 ## 4. Pengujian Otomatis (Unit Testing)

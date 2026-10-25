@@ -3,15 +3,55 @@ import { calculateFinancialMetrics } from "@/lib/finance/calculator";
 import { generateScenarios } from "@/lib/finance/scenario-engine";
 import { assessBusinessRisks } from "@/lib/finance/risk-engine";
 import { generateAIAnalysis } from "@/lib/ai/service";
+import { extractFinancialReport } from "@/lib/finance/report-extractor";
+import { analyzeFinancialReport } from "@/lib/finance/report-analysis";
 import { BusinessAnalysisRecord, GrowthFormData, PlannerFormData } from "@/types";
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
-    const { serviceType, formData } = body as {
-      serviceType: "planner" | "growth";
-      formData: PlannerFormData | GrowthFormData;
-    };
+    let serviceType: "planner" | "growth" | null = null;
+    let formData: PlannerFormData | GrowthFormData | null = null;
+    let financialReportText: string | undefined;
+
+    if (req.headers.get("content-type")?.includes("multipart/form-data")) {
+      const upload = await req.formData();
+      const rawServiceType = upload.get("serviceType");
+      const rawFormData = upload.get("formData");
+
+      if (rawServiceType !== "planner" && rawServiceType !== "growth") {
+        return NextResponse.json({ error: "Jenis analisis tidak valid." }, { status: 400 });
+      }
+      if (typeof rawFormData !== "string") {
+        return NextResponse.json({ error: "Data formulir tidak ditemukan." }, { status: 400 });
+      }
+
+      serviceType = rawServiceType;
+      try {
+        formData = JSON.parse(rawFormData) as PlannerFormData | GrowthFormData;
+      } catch {
+        return NextResponse.json({ error: "Format data formulir tidak valid." }, { status: 400 });
+      }
+
+      const reportFile = upload.get("financialReport");
+      if (reportFile && typeof reportFile !== "string") {
+        if (serviceType !== "growth") {
+          return NextResponse.json(
+            { error: "Lampiran laporan hanya tersedia untuk analisis pertumbuhan." },
+            { status: 400 }
+          );
+        }
+        try {
+          financialReportText = await extractFinancialReport(reportFile);
+        } catch (error) {
+          const message = error instanceof Error ? error.message : "File laporan tidak dapat dibaca.";
+          return NextResponse.json({ error: message }, { status: 400 });
+        }
+      }
+    } else {
+      const body = await req.json();
+      serviceType = body.serviceType;
+      formData = body.formData;
+    }
 
     if (!serviceType || !formData) {
       return NextResponse.json(
@@ -55,8 +95,12 @@ export async function POST(req: NextRequest) {
       financialMetrics,
       scenarios,
       risks,
-      isGrowth
+      isGrowth,
+      financialReportText
     );
+    if (financialReportText) {
+      aiReport.financialReportSummary = analyzeFinancialReport(financialReportText);
+    }
 
     // 5. Susun Record Snapshot Lengkap
     const recordId = `analysis_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;

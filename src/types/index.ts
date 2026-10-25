@@ -95,6 +95,24 @@ export interface MarketAssessment {
   recommendedValidationSteps: string[];
 }
 
+export interface FinancialReportSummary {
+  period: string | null;
+  revenue: number | null;
+  costOfGoodsSold: number | null;
+  grossProfit: number | null;
+  operatingExpenses: number | null;
+  netProfit: number | null;
+  operatingCashFlow: number | null;
+  investingCashFlow: number | null;
+  financingCashFlow: number | null;
+  endingCash: number | null;
+  totalAssets: number | null;
+  totalLiabilities: number | null;
+  totalEquity: number | null;
+  netProfitMarginPercent: number | null;
+  consistencyChecks: string[];
+}
+
 export interface AIAnalysisReport {
   executiveSummary: string;
   businessStrengths: string[];
@@ -115,6 +133,7 @@ export interface AIAnalysisReport {
     missingCriticalData: string[];
   };
   disclaimer: string;
+  financialReportSummary?: FinancialReportSummary;
 }
 
 export interface BusinessAnalysisRecord {

@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { PlannerFormData } from "@/types";
+import { BusinessAnalysisRecord, PlannerFormData } from "@/types";
 import { SAMPLE_PLANNER_DATA } from "@/lib/sample-data";
 import { StorageService } from "@/lib/storage";
+import { readJsonResponse } from "@/lib/api-response";
 import {
   Sparkles,
   ArrowRight,
@@ -79,11 +80,10 @@ export default function NewPlannerAnalysisPage() {
         }),
       });
 
+      const record = await readJsonResponse<BusinessAnalysisRecord & { error?: string }>(res);
       if (!res.ok) {
-        throw new Error("Gagal memproses analisis rencana usaha.");
+        throw new Error(record.error || "Gagal memproses analisis rencana usaha.");
       }
-
-      const record = await res.json();
       await StorageService.saveAnalysis(record);
       router.push(`/analysis/${record.id}`);
     } catch (err: any) {

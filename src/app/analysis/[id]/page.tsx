@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { BusinessAnalysisRecord, ChatMessage } from "@/types";
 import { StorageService } from "@/lib/storage";
+import { readJsonResponse } from "@/lib/api-response";
 import { simulateSensitivity } from "@/lib/finance/calculator";
 import {
   ArrowLeft,
@@ -158,7 +159,10 @@ export default function AnalysisDetailPage() {
           analysisRecord: record,
         }),
       });
-      const data = await res.json();
+      const data = await readJsonResponse<{ reply?: string; error?: string }>(res);
+      if (!res.ok) {
+        throw new Error(data.error || "Gagal mendapatkan balasan.");
+      }
       const botMsg: ChatMessage = {
         id: `assistant_${Date.now()}`,
         sender: "assistant",
@@ -168,6 +172,13 @@ export default function AnalysisDetailPage() {
       setChatMessages((prev) => [...prev, botMsg]);
     } catch (err) {
       console.error(err);
+      const botMsg: ChatMessage = {
+        id: `assistant_${Date.now()}`,
+        sender: "assistant",
+        content: err instanceof Error ? err.message : "Gagal mendapatkan balasan dari server.",
+        timestamp: new Date().toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" }),
+      };
+      setChatMessages((prev) => [...prev, botMsg]);
     } finally {
       setChatLoading(false);
     }
@@ -304,6 +315,100 @@ export default function AnalysisDetailPage() {
               </div>
             </div>
           </div>
+
+          {record.aiReport.financialReportSummary && (
+            <div className="bg-white rounded border border-slate-200 p-5 shadow-flat border-t-4 border-[#3498db]">
+              <h3 className="text-xs sm:text-sm font-bold text-[#2c3e50] uppercase tracking-wide mb-1">
+                Rekonsiliasi Lampiran Laporan Keuangan
+              </h3>
+              <p className="text-[11px] text-[#7f8c8d] mb-4">
+                Angka PDF adalah total historis sesuai periode laporan. Angka aplikasi adalah estimasi bulanan
+                dari input formulir; keduanya ditampilkan terpisah dan tidak saling menggantikan.
+              </p>
+
+              <p className="text-[11px] text-[#576574] mb-3">
+                Periode terdeteksi: {record.aiReport.financialReportSummary.period || "tidak tercantum/terdeteksi"}
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="rounded border border-slate-200 p-3">
+                  <h4 className="text-[11px] font-bold uppercase text-[#2c3e50] mb-2">
+                    Angka dari laporan
+                  </h4>
+                  {(
+                    [
+                      ["Total pendapatan", record.aiReport.financialReportSummary.revenue],
+                      ["Total HPP", record.aiReport.financialReportSummary.costOfGoodsSold],
+                      ["Laba kotor", record.aiReport.financialReportSummary.grossProfit],
+                      ["Beban operasional", record.aiReport.financialReportSummary.operatingExpenses],
+                      ["Laba bersih", record.aiReport.financialReportSummary.netProfit],
+                      ["Margin laba bersih", record.aiReport.financialReportSummary.netProfitMarginPercent, "%"],
+                      ["Arus kas operasi", record.aiReport.financialReportSummary.operatingCashFlow],
+                      ["Arus kas investasi", record.aiReport.financialReportSummary.investingCashFlow],
+                      ["Arus kas pembiayaan", record.aiReport.financialReportSummary.financingCashFlow],
+                      ["Saldo kas akhir", record.aiReport.financialReportSummary.endingCash],
+                      ["Total aset", record.aiReport.financialReportSummary.totalAssets],
+                      ["Total liabilitas", record.aiReport.financialReportSummary.totalLiabilities],
+                      ["Total ekuitas", record.aiReport.financialReportSummary.totalEquity],
+                    ] as [string, number | null, string?][]
+                  ).map(([label, value, suffix]) => (
+                    <div key={label} className="flex justify-between gap-3 border-b border-slate-100 py-1.5 text-xs">
+                      <span className="text-[#576574]">{label}</span>
+                      <span className="text-right font-bold text-[#2c3e50]">
+                        {value === null
+                          ? "Tidak terdeteksi"
+                          : suffix === "%"
+                          ? `${value}%`
+                          : `Rp ${value.toLocaleString("id-ID")}`}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="rounded border border-slate-200 p-3">
+                  <h4 className="text-[11px] font-bold uppercase text-[#2c3e50] mb-2">
+                    Skenario moderat aplikasi (per bulan)
+                  </h4>
+                  {[
+                    ["Unit terjual", "expectedMonthlySalesVolume" in record.inputSnapshot
+                      ? record.inputSnapshot.expectedMonthlySalesVolume
+                      : record.inputSnapshot.monthlyUnitsSold],
+                    ["Omzet", record.financialMetrics.totalMonthlyRevenue],
+                    ["Total biaya", record.financialMetrics.totalMonthlyCost],
+                    ["Laba operasional", record.financialMetrics.monthlyOperatingProfit],
+                    ["Margin operasional", record.financialMetrics.profitMarginPercent, "%"],
+                    ["BEP", record.financialMetrics.bepUnits, " unit"],
+                  ].map(([label, value, suffix]) => (
+                    <div key={String(label)} className="flex justify-between gap-3 border-b border-slate-100 py-1.5 text-xs">
+                      <span className="text-[#576574]">{label}</span>
+                      <span className="text-right font-bold text-[#2c3e50]">
+                        {value === null
+                          ? "Tidak tercapai"
+                          : suffix === "%"
+                          ? `${value}%`
+                          : suffix === " unit"
+                          ? `${value} unit`
+                          : label === "Unit terjual"
+                          ? `${value} unit`
+                          : `Rp ${Number(value).toLocaleString("id-ID")}`}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mt-4 rounded bg-[#f4f6f9] border border-slate-200 p-3">
+                <h4 className="text-[11px] font-bold uppercase text-[#2c3e50] mb-2">
+                  Pemeriksaan konsistensi aritmetika laporan
+                </h4>
+                <ul className="space-y-1 text-xs text-[#576574]">
+                  {record.aiReport.financialReportSummary.consistencyChecks.map((check, index) => (
+                    <li key={index}>{check}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
 
           {/* Data Confidence Score */}
           <div className="bg-white rounded border border-slate-200 p-5 shadow-flat border-t-4 border-[#34495e]">
